@@ -29,6 +29,7 @@ Thumbs.db
 outputs/model/*.safetensors
 outputs/model/*.bin
 outputs/model/*.pt
+outputs/model/checkpoint-*/
 outputs/logs/
 *.ckpt
 

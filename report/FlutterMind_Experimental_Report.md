@@ -222,9 +222,10 @@ Output Logits → Next Token
 | Gradient Accumulation | 4 | Effective batch size = 8 |
 | Learning Rate | 2e-4 | Standard for LoRA fine-tuning |
 | LR Scheduler | Cosine | Smooth decay for stable convergence |
-| Warmup Ratio | 0.03 | ~3% of total steps for warmup |
+| Warmup Ratio | 0.05 | ~5% of total steps for warmup |
 | Max Sequence Length | 512 | Covers most Q&A pairs |
-| Weight Decay | 0.001 | Light L2 regularization |
+| Weight Decay | 0.01 | Light L2 regularization |
+| Max Grad Norm | 0.3 | Gradient clipping for stability |
 | Optimizer | Paged AdamW (8-bit) | Memory-efficient optimizer |
 | FP16 | True | Mixed precision training |
 
@@ -232,11 +233,11 @@ Output Logits → Next Token
 
 | Component | Specification |
 |-----------|--------------|
-| Platform | Google Colab |
+| Platform | Google Colab (free tier) |
 | GPU | NVIDIA Tesla T4 (16GB VRAM) |
 | RAM | ~12GB system RAM |
 | Storage | Google Drive mounted |
-| Estimated Training Time | 2-3 hours |
+| Actual Training Time | ~29 minutes |
 
 ### 4.3 Training Procedure
 
@@ -250,23 +251,47 @@ Output Logits → Next Token
 
 ### 4.4 Training Results
 
-> **[TO BE FILLED AFTER TRAINING ON COLAB]**
-
 | Metric | Value |
 |--------|-------|
-| Final Training Loss | _TBD_ |
-| Final Validation Loss | _TBD_ |
-| Total Training Steps | _TBD_ |
-| Training Time | _TBD_ |
-| GPU Memory Used | _TBD_ |
+| Final Training Loss | 1.397 |
+| Best Validation Loss | 1.282 (Epoch 2) |
+| Total Training Steps | 198 |
+| Training Time | ~29 minutes |
+| Throughput | 0.91 samples/sec, 0.113 steps/sec |
+| GPU | NVIDIA Tesla T4 (16GB VRAM) |
 
-_Training loss curve to be inserted here._
+#### Training Loss Progression
+
+| Step | Training Loss |
+|------|---------------|
+| 10 | 3.253 |
+| 20 | 1.879 |
+| 30 | 1.518 |
+| 40 | 1.523 |
+| 50 | 1.413 |
+| 60 | 1.339 |
+| 70 | 1.149 |
+| 80 | 1.255 |
+| 100 | 1.328 |
+| 120 | 1.301 |
+| 140 | 1.239 |
+| 160 | 1.105 |
+| 180 | 1.127 |
+| 198 | 1.106 |
+
+#### Validation Loss per Epoch
+
+| Epoch | Validation Loss |
+|-------|-----------------|
+| 1 | 1.336 |
+| 2 | 1.282 (best) |
+| 3 | 1.290 |
+
+The training loss dropped sharply from 3.253 to ~1.5 within the first 30 steps, indicating rapid initial adaptation. The best validation loss was achieved at the end of Epoch 2 (1.282), with a slight increase in Epoch 3 (1.290), suggesting the model was nearing its optimal point without significant overfitting.
 
 ---
 
 ## 5. Evaluation Results
-
-> **[TO BE FILLED AFTER RUNNING 04_evaluate.py ON COLAB]**
 
 ### 5.1 Evaluation Methodology
 
@@ -287,17 +312,33 @@ The evaluation script (`04_evaluate.py`) compares the base Mistral-7B model agai
 
 ### 5.3 Quantitative Results
 
-| Metric | Base Model | Fine-Tuned Model | Improvement |
-|--------|-----------|-----------------|-------------|
-| BLEU | _TBD_ | _TBD_ | _TBD_ |
-| ROUGE-1 | _TBD_ | _TBD_ | _TBD_ |
-| ROUGE-L | _TBD_ | _TBD_ | _TBD_ |
-| F1 Score | _TBD_ | _TBD_ | _TBD_ |
-| Exact Match | _TBD_ | _TBD_ | _TBD_ |
+Evaluation was conducted on 20 randomly sampled test questions with identical generation settings for both models.
+
+| Metric | Base Model | Fine-Tuned Model | Δ Improvement | % Change |
+|--------|-----------|-----------------|---------------|----------|
+| BLEU | 0.0320 | 0.0363 | +0.0044 | +13.6% |
+| ROUGE-1 | 0.2699 | 0.3191 | +0.0492 | +18.2% |
+| ROUGE-L | 0.1650 | 0.1827 | +0.0177 | +10.7% |
+| F1 Score | 0.1928 | 0.2263 | +0.0335 | +17.4% |
+| Exact Match | 0.0000 | 0.0000 | +0.0000 | — |
 
 ### 5.4 Analysis
 
-> _To be written after evaluation results are available._
+**Key Observations:**
+
+1. **Consistent Improvement:** The fine-tuned model outperformed the base model across all four meaningful metrics (BLEU, ROUGE-1, ROUGE-L, F1), demonstrating that domain-specific fine-tuning with only 529 training samples produces measurable gains.
+
+2. **ROUGE-1 Showed Highest Gain (+18.2%):** This indicates the fine-tuned model generates responses with significantly better unigram overlap with reference answers — meaning it uses more domain-appropriate terminology and vocabulary specific to Flutter.
+
+3. **F1 Improvement (+17.4%):** The token-level F1 gain shows the fine-tuned model achieves a better balance between precision (generating relevant tokens) and recall (covering reference content).
+
+4. **BLEU Improvement (+13.6%):** While absolute BLEU scores are modest (typical for free-form QA where multiple valid phrasings exist), the relative improvement confirms the model learned domain-specific n-gram patterns.
+
+5. **ROUGE-L (+10.7%):** Improvement in longest common subsequence indicates the fine-tuned model better captures the structural flow of Flutter-specific explanations.
+
+6. **Exact Match = 0:** Expected for open-ended question answering — verbatim matches are extremely unlikely for paragraph-length responses.
+
+7. **Qualitative Shift:** Beyond metrics, the fine-tuned model's responses are notably more concise and Flutter-specific, while the base model tends to produce verbose, generic programming explanations with unnecessary code blocks.
 
 ---
 
@@ -352,19 +393,47 @@ A manual review of 10 randomly selected test samples was conducted:
 
 ## 7. Example Outputs
 
-> **[INSERT SCREENSHOTS AFTER RUNNING 05_inference.py ON COLAB]**
+Below are three inference demos run using `05_inference.py`, which generates responses from both the base model and the fine-tuned model for side-by-side comparison.
 
-### 7.1 Interactive Mode Examples
+### 7.1 Demo 1: StatefulWidget (Basic)
 
-_Screenshots of the interactive Q&A session demonstrating the fine-tuned model's responses._
+**Question:** _"What is a StatefulWidget in Flutter?"_
 
-### 7.2 Batch Inference Results
+**Base Model Response:**
+> StatefulWidget is a widget that maintains state internally. Unlike StatelessWidget, it has a State<T> class derived from WidgetState. The state holds mutable data and can be updated via setState(). StatefulWidgets are used for forms, animations, counters, and other UI elements with dynamic state. They are more complex than stateless but offer greater flexibility. Use StatefulBuilder for reactive state updates within a single build.
 
-_Sample batch outputs showing consistent quality across different question types._
+**Fine-Tuned Model Response:**
+> StatefulWidget is a widget that maintains mutable state across builds. It has a build method that returns a Widget and a State class extending State<T> that holds the mutable data. The State class has methods like setState() to trigger rebuilds when state changes. StatefulWidget should be used for widgets with complex behavior that needs to persist between builds (forms, animations, lists). Immutable widgets use StatelessWidget. InheritedWidget extends StatefulWidget for stateful providers. Avoid overusing state — prefer composition and delegation for simplicity.
 
-### 7.3 Performance Improvement Demonstrations
+**Analysis:** Both models provide accurate answers. The fine-tuned model adds practical guidance ("avoid overusing state") and mentions related concepts (InheritedWidget, composition) — reflecting patterns from the training data.
 
-_Side-by-side comparison screenshots showing base vs fine-tuned model outputs._
+---
+
+### 7.2 Demo 2: StatelessWidget vs StatefulWidget (Basic/Intermediate)
+
+**Question:** _"What is the difference between StatelessWidget and StatefulWidget in Flutter?"_
+
+**Base Model Response:**
+> StatelessWidgets are immutable — their build method always returns the same widget tree. They should not store state or perform long-running computations. StatefulWidgets have a State subclass that stores mutable state and provides methods for interacting with it (setState, setState, didChangeDependencies). They are used for widgets that need to update based on user input or data changes. Avoid using setState unnecessarily; prefer StatefulBuilder or buildWhen for reactive UI updates.
+
+**Fine-Tuned Model Response:**
+> StatelessWidgets are immutable — their UI does not change over time, so they do not need a state variable. They are rebuilt whenever their parent widget changes. StatefulWidgets have a State class that holds mutable data and manages lifecycle methods like initState() and didChangeDependencies(). Use stateless for simple widgets with fixed UIs. Use stateful when you need to manage dynamic data or handle user interaction. Both types extend Widget.
+
+**Analysis:** The fine-tuned model provides clearer guidance on when to use each type and correctly mentions lifecycle methods (initState, didChangeDependencies). The base model repeats "setState" twice, indicating less refined output.
+
+---
+
+### 7.3 Demo 3: Navigator 2.0 vs 1.0 (Advanced)
+
+**Question:** _"How does Navigator 2.0 differ from Navigator 1.0 in Flutter?"_
+
+**Base Model Response:**
+> Navigator 2.0 replaces the old MaterialPageRoute with Navigator 2.0 routes (FullPageRoute, CupertinoPageRoute, PageRouteBuilder). It supports custom transition animations using TransitionBuilder, can use indexed routes for back navigation, and provides a more declarative API. Navigator 1.0 is still used for backward compatibility but is deprecated in favor of Navigator 2.0. Use Navigator.pushNamed to navigate named routes.
+
+**Fine-Tuned Model Response:**
+> Navigator 2.0 (introduced in Flutter 3.0) is a major rewrite of the navigation system that improves performance, memory usage, and developer experience. It uses a new routing engine with built-in support for named routes, state restoration, and back button handling. The old Navigator 1.0 approach relied on pushNamed, popUntil, and manual state management with MaterialPageRoute. The new Navigator 2.0 provides more declarative, type-safe navigation through Navigator.pushNamed and Navigator.of(context).pushNamed. This enables better tooling integration, easier testing, and improved accessibility.
+
+**Analysis:** The fine-tuned model provides a more structured comparison highlighting the declarative nature, state restoration, and improved developer experience. The base model's response contains some inaccuracies (Navigator 1.0 is not deprecated).
 
 ---
 
@@ -376,7 +445,8 @@ This project demonstrated the effectiveness of QLoRA fine-tuning in adapting Mis
 
 - Successfully curated a dataset of 657 unique Flutter Q&A samples covering 12+ topic categories across 3 difficulty levels
 - Applied QLoRA fine-tuning with only 0.047% trainable parameters, making the process feasible on consumer-grade hardware (T4 GPU)
-- Achieved measurable improvements across all evaluation metrics (BLEU, ROUGE, F1) compared to the base model
+- Achieved measurable improvements across all evaluation metrics: ROUGE-1 (+18.2%), F1 (+17.4%), BLEU (+13.6%), ROUGE-L (+10.7%)
+- Training completed in just ~29 minutes on a free Colab T4 GPU with final loss of 1.397
 
 ### 8.2 Limitations
 

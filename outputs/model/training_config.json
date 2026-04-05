@@ -1,0 +1,37 @@
+{
+  "model_id": "mistralai/Mistral-7B-Instruct-v0.2",
+  "lora_config": {
+    "r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "training_config": {
+    "epochs": 3,
+    "per_device_batch_size": 2,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 0.0002,
+    "warmup_ratio": 0.05,
+    "weight_decay": 0.01,
+    "max_grad_norm": 0.3,
+    "lr_scheduler_type": "cosine",
+    "logging_steps": 10,
+    "fp16": true
+  },
+  "max_seq_length": 512,
+  "train_samples": 529,
+  "val_samples": 64,
+  "training_metrics": {
+    "train_runtime": "1744.5432",
+    "train_samples_per_second": "0.91",
+    "train_steps_per_second": "0.113",
+    "total_flos": "9520287633088512.0",
+    "train_loss": "1.3969915081756283",
+    "epoch": "2.988679245283019"
+  }
+}

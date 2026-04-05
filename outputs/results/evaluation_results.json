@@ -1,0 +1,504 @@
+{
+  "base_model": {
+    "aggregate_metrics": {
+      "bleu": 0.03196871588339985,
+      "rouge1": 0.26987762467929444,
+      "rougeL": 0.16495224204504194,
+      "f1": 0.19282323500530008,
+      "exact_match": 0.0
+    },
+    "per_sample": [
+      {
+        "question": "How do you implement a carousel/slider in Flutter?",
+        "reference": "Carousels use PageView with PageController(viewportFraction: 0.8) for visible adjacent pages. The carousel_slider package provides auto-play, infinite scroll, custom layout, and indicators. For smooth snapping, use PageView.custom with physics. Add page indicators using smooth_page_indicator or dots_indicator packages. Control programmatically via PageController.animateToPage().",
+        "generated": "To implement a carousel or slider in Flutter, you can use the `carousel_slider` package. Here's how to add it to your project and use it:\n\n1. Add this dependency to your `pubspec.yaml` file:\n```yaml\ndependencies:\n  flutter:\n    sdk: flutter\n  carousel_slider: ^2.3.0\n```\n\n2. Run `flutter pub get` command in terminal to fetch the package.\n\n3. Now, create a new widget for the carousel slider with the following code:\n\n```dart\nimport 'package:carousel_slider/carousel_slider.dart';\n\nclass MyCarousel extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return CarouselSlider(\n      items: [1, 2, 3, 4, 5].map((i) {\n        return Builder(\n          builder: (BuildContext context) {\n            return Container(\n              width: MediaQuery.of(context).size.width,\n              height: MediaQuery.of(context",
+        "metrics": {
+          "bleu": 0.01723540298978112,
+          "rouge1": 0.16969696969696968,
+          "rougeL": 0.12121212121212123,
+          "f1": 0.11347517730496454,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the Either type pattern in Flutter?",
+        "reference": "Either (from dartz or fpdart package) represents a value that is one of two types: Left (typically failure) or Right (typically success). Instead of throwing exceptions, functions return Either<Failure, Success>. Callers handle both cases with fold((failure) => ..., (success) => ...). This makes error handling explicit, composable, and forces callers to handle errors.",
+        "generated": "The Either type pattern, also known as the Discriminated Union or Sum Type in functional programming, is a design pattern used to represent one of two possible types of values. In Flutter or Dart programming, it can be implemented using an abstract class with two subclasses representing the success (Right) and error (Left) cases. This pattern is useful for handling asynchronous operations or computations that can result in either a successful value or an error. By using the Either type, you can simplify error handling and make your code more readable and maintainable.",
+        "metrics": {
+          "bleu": 0.03745248317332397,
+          "rouge1": 0.40277777777777785,
+          "rougeL": 0.19444444444444448,
+          "f1": 0.2328767123287671,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement multi-window support in Flutter desktop?",
+        "reference": "Flutter desktop multi-window support is still evolving. The approach involves creating multiple Flutter engine instances with separate entry points, or using platform-specific native code to manage windows with MethodChannel communication between them. The desktop_multi_window package provides a simpler API. Each window can have its own widget tree, state, and size.",
+        "generated": "Multi-window support is not natively available in Flutter for desktop applications out of the box. However, you can achieve this functionality by using platform channels to interact with the native code of the hosting platform (such as Windows or Linux). You would need to write a platform specific code using the Electron framework for web, or the respective Desktop Widgets library for each platform (for example, `flutter_desktop_windows` for Windows) to create separate windows that can run independently. This approach involves maintaining two codebases, one for the Flutter application logic and another for managing multiple windows. If you're looking for an easier solution, you may consider other frameworks like Qt or GTK+ that have built-in multi-window support.",
+        "metrics": {
+          "bleu": 0.0344289173805382,
+          "rouge1": 0.38636363636363635,
+          "rougeL": 0.18181818181818182,
+          "f1": 0.2891566265060241,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you inspect the widget tree in Flutter?",
+        "reference": "Methods: 1) Flutter Inspector in IDE: view widget hierarchy, select widgets, see properties. 2) DevTools Widget Inspector: interactive tree with details panel. 3) debugDumpApp() prints entire widget tree to console. 4) debugDumpRenderTree() shows render objects. 5) debugDumpLayerTree() shows compositing layers. 6) Add Debug Paint: debugPaintSizeEnabled = true shows layout boundaries. 7) MaterialApp(showSemanticsDebugger: true) shows accessibility tree. 8) Use WidgetInspectorService for programmatic access.",
+        "generated": "To inspect the widget tree in Flutter during development, you can use the Flutter DevTools, which is an integrated development environment (IDE) feature for debugging and profiling Flutter applications. Here's how to use it:\n\n1. Run your app in the emulator or on a physical device using the `flutter run` command.\n2. Open Chrome DevTools by right-clicking on the web page or in the browser's address bar and selecting \"Inspect\" or by using the shortcut key combination Ctrl+Shift+I (Cmd+Option+I on Mac).\n3. In the top left corner of Chrome DevTools, click on the \"Performance\" tab, then select the \"Profiling\" subtab.\n4. Click on the \"Recording\" button at the top of the screen to start recording the widget tree.\n5. Interact with your app while recording the widget tree.\n6. Once you've finished interacting with your app, stop the recording by clicking the \"Stop\" button in Chrome DevTools.\n7. Analyze the recorded widget tree in the \"Family Tree\" view or the \"Components\" tab to see the hierarchy of widgets",
+        "metrics": {
+          "bleu": 0.01441665789631166,
+          "rouge1": 0.2352941176470588,
+          "rougeL": 0.1092436974789916,
+          "f1": 0.13913043478260867,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement composable widgets in Flutter?",
+        "reference": "Composable widgets are small, focused widgets combined to create complex UIs. Use composition over inheritance — build complex widgets by nesting simple ones. Accept Widget parameters (like leading, trailing, header) for customizable slots. Use typedef for callback signatures. Builder pattern enables widget construction: MyWidget.primary(...), MyWidget.secondary(...). This promotes reusability and consistent API design.",
+        "generated": "Composable widgets are a fundamental concept in Flutter's widget-based UI framework. A composable widget is a widget that can be built by combining other widgets together. This allows for creating reusable, modular UI components.\n\nTo create a composable widget in Flutter, follow these steps:\n1. Define a new custom widget class that extends `StatelessWidget` or `StatefulWidget`.\n2. In the widget's build method, use the given context to create and return the desired UI tree using other widgets as building blocks.\n3. Make the new widget reusable by giving it an appropriate name and placing it in a separate file within your project's `lib/widgets` directory.\n4. Import the newly created widget into other Dart files and use it just like any other Flutter widget.\n\nHere's a simple example of a custom composable widget called `MyCustomAppBar` that builds a basic app bar with a title and back button:\n\n```dart\nimport 'package:flutter/material.dart';\n\nclass MyCustomAppBar extends StatelessWidget {\n  final String title;\n\n  const My",
+        "metrics": {
+          "bleu": 0.021856074453255773,
+          "rouge1": 0.18181818181818182,
+          "rougeL": 0.13636363636363638,
+          "f1": 0.16113744075829384,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement custom RenderObjects in Flutter?",
+        "reference": "Custom RenderObjects control layout, painting, and hit testing directly. Create a RenderBox subclass, override performLayout() to compute size and position children, paint() to draw using Canvas, and hitTestSelf/hitTestChildren for gesture detection. Create a corresponding SingleChildRenderObjectWidget or MultiChildRenderObjectWidget that creates and updates the RenderObject. This bypasses the framework layer for maximum control.",
+        "generated": "To implement custom RenderObjects in Flutter, follow these steps:\n\n1. Create a new class that extends `RenderObject` or one of its subclasses like `RenderBox`, `RenderPositionedBox`, or `RenderCustomPaint`. For example:\n\n```dart\nclass CustomRenderObject extends RenderBox {\n  CustomRenderObject();\n\n  @override\n  void paint(PaintingContext context, Offset offset) {}\n\n  @override\n  Size get size => _kNullSize;\n\n  // Implement other required methods based on your use case.\n}\n```\n\n2. Register your custom render object with the Flutter engine by extending `MaterialApp` (for stateless widgets) or `StatefulWidget` (for stateful widgets) and implementing `MaterialAppDelegate` or `StatefulWidgetDelegate`, respectively. In the delegate's `createState` method, register your custom render object using the `FlutterBinding.instance.registerEngineLayer` function.\n\n```dart\nclass MyApp extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return MaterialApp(\n      home:",
+        "metrics": {
+          "bleu": 0.022425466844347024,
+          "rouge1": 0.23030303030303031,
+          "rougeL": 0.15757575757575756,
+          "f1": 0.16766467065868265,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is InheritedWidget and how does it work?",
+        "reference": "InheritedWidget is the foundational mechanism for passing data down the widget tree efficiently. It sits in the tree and provides data to all descendants. Widgets access it via context.dependOnInheritedWidgetOfExactType<T>(). When data changes, only widgets that registered as dependents are rebuilt. Theme, MediaQuery, and Provider are all built on InheritedWidget.",
+        "generated": "An InheritedWidget in Flutter is a type of Stateful Widget that provides its descendants with read-only, rebuildable, and tree-wide accessible data. It achieves this by creating an inheritance mechanism for widgets in a subtree. The idea is to have a single source of truth for a piece of data that can be easily accessed by all widgets in the subtree without having to pass the data down through every level of the widget tree as props.\n\nTo use an InheritedWidget, you create a new class that extends `InheritedWidget` and overrides the `build(BuildContext context)` method to return the InheritedWidget itself. You then provide a constructor that accepts the `child` argument, which will be the widget that you want to wrap, and the `value` argument, which is the data you want to make available to the subtree.\n\nHere's a simple example:\n\n```dart\nclass ColorProvider extends InheritedWidget {\n  final Color color;\n\n  ColorProvider({this.color, Widget child}) : super(child: child);\n\n  static Color of(BuildContext context) {\n    return context",
+        "metrics": {
+          "bleu": 0.026949611675673477,
+          "rouge1": 0.29493087557603687,
+          "rougeL": 0.14746543778801843,
+          "f1": 0.22857142857142862,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is a CurvedAnimation in Flutter?",
+        "reference": "CurvedAnimation applies a non-linear curve to an Animation, modifying how the animation progresses over time. Instead of linear interpolation, it can ease in, ease out, bounce, or follow other mathematical curves. Flutter provides many built-in curves like Curves.easeInOut, Curves.bounceIn, and Curves.elasticOut. It wraps an AnimationController and is passed to Tweens.",
+        "generated": "A `CurvedAnimation` in Flutter is an extension of `Animation<double>`, which allows for creating animations with custom curves. Instead of using linear interpolation between keyframes, `CurvedAnimation` uses a given curve function to interpolate animation values. This provides more control over the animation's shape and feel, allowing for creating complex animation effects like bounces, elastic movements, or easing functions that follow specific mathematical functions. The curve can be defined using various built-in curves (such as `ElasticInOut`, `Circular`, etc.) or by providing a custom curve function.",
+        "metrics": {
+          "bleu": 0.034938013657415806,
+          "rouge1": 0.43971631205673756,
+          "rougeL": 0.24113475177304963,
+          "f1": 0.33082706766917297,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement a loading overlay in Flutter?",
+        "reference": "Loading overlay uses Stack with a conditional overlay: Stack(children: [mainContent, if (isLoading) Container(color: Colors.black54, child: Center(child: CircularProgressIndicator()))]). Or use the loading_overlay package. Block taps during loading with AbsorbPointer. Show fullscreen loading with showDialog and CircularProgressIndicator. Use ModalBarrier for semi-transparent blocking.",
+        "generated": "To implement a loading overlay in Flutter, you can use the `showDialog` method from the `ShowModalBottomSheet.of` or `ShowCircularProgressIndicator` widgets from the `material.circular_progress_indicator` package. Here's an example using `ShowCircularProgressIndicator`:\n\n1. Create a stateful widget for your main screen.\n2. Add a `State<YourScreen> extends State<YourScreen>` class with a variable to keep track of the loading state (e.g., `bool isLoading = false;`).\n3. Wrap the part of the UI that causes the loading with a `FutureBuilder` or `StreamBuilder`.\n4. Set up a function that starts the long-running task and updates the `isLoading` variable when it begins and ends.\n5. Use a `Stack` widget to position the progress indicator over the UI being loaded.\n6. In the `build` method, wrap the UI being loaded with a `Scaffold` and set its body to the `Stack` with the progress indicator and the loaded UI.\n7. Show the progress indicator when `isLoading` is true and hide it otherwise",
+        "metrics": {
+          "bleu": 0.020175774523492715,
+          "rouge1": 0.21463414634146344,
+          "rougeL": 0.13658536585365855,
+          "f1": 0.16753926701570682,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you profile and optimize Flutter app performance?",
+        "reference": "Use Flutter DevTools Performance view to identify jank. Profile mode (flutter run --profile) provides production-like performance with debugging tools. Common optimizations: const constructors to avoid rebuilds, RepaintBoundary for isolated repainting, ListView.builder for lazy loading, pre-computed layouts, cached images, reduced widget depth, and avoiding expensive operations in build methods.",
+        "generated": "1. Use Flutter DevTools: Flutter DevTools is a Chrome extension that provides detailed information about your app's performance, including CPU usage, memory usage, and frame rate. It also allows you to inspect the rendering tree, network traffic, and the JavaScript and Dart code running in the background.\n2. Profile with the Profiler: The built-in Flutter profiler can help identify performance bottlenecks by measuring the time taken for individual widget builds and rebuilds. You can use it to find out which parts of your app are taking longer to render and optimize those sections.\n3. Use StatelessWidgets and Immutable Data: StatelessWidgets and immutable data reduce the number of rebuilds and improve the overall performance of your app. Instead of using StatefulWidgets, consider using Providers or InheritedWidgets to manage state and avoid unnecessary rebuilds.\n4. Optimize Images: Large images can significantly impact app performance. Use appropriate image formats (e.g., WebP) and size them correctly to ensure they load quickly. Consider using a library like flutter_cache_manager to cache and load images efficiently.\n5. Use Text Caching: Memoized text",
+        "metrics": {
+          "bleu": 0.015314613013370306,
+          "rouge1": 0.23376623376623373,
+          "rougeL": 0.13852813852813853,
+          "f1": 0.14349775784753363,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the difference between Flexible and Expanded?",
+        "reference": "Both distribute space in Row/Column. Expanded forces child to fill all remaining space (fit: FlexFit.tight). Flexible lets child be smaller than allocated space (fit: FlexFit.loose). Expanded(child: Container()) — container fills all available space. Flexible(child: Container()) — container can be smaller. Both accept flex parameter for proportional sizing: Expanded(flex: 2) takes twice the space of Expanded(flex: 1).",
+        "generated": "In Flutter, both `Flexible` and `Expanded` are widgets used for layout customization in Flexible and Row or Column widgets. However, they serve different purposes:\n\n- **Flexible**: It allows a child to flexibly grow or shrink based on available space within its parent's constraints. You can control this growth by setting the `flexGrow` property. Flexible does not occupy the entire available space; it just adjusts its size to fill the remaining space.\n\n- **Expanded**: It distributes the available space evenly among its children. Each Expanded child will take up an equal share of the available space unless you set the `flex` property to change their proportions. Unlike Flexible, an Expanded child will always occupy the maximum possible space within its parent's constraints.\n\nIn summary, use `Flexible` when you want a child to scale according to available space while maintaining other children's sizes, and use `Expanded` when you want all children to have equal shares of the available space.",
+        "metrics": {
+          "bleu": 0.01934490327339388,
+          "rouge1": 0.3013698630136986,
+          "rougeL": 0.18264840182648404,
+          "f1": 0.18779342723004694,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How does Flutter's layer tree and compositing work?",
+        "reference": "After paint, Flutter creates a layer tree (Scene) that maps to GPU operations. Key layers: OffsetLayer (positioning), OpacityLayer (alpha), ClipRectLayer (clipping), TransformLayer (transforms), PictureLayer (draw commands), TextureLayer (platform textures). RepaintBoundary creates a separate OffsetLayer, enabling partial repaint. The raster thread composites layers, caching unchanged layers. Too many layers increase GPU memory and compositing cost. Profile with DevTools Layers tab. Impeller pre-compiles shaders, eliminating shader compilation jank.",
+        "generated": "Flutter's rendering engine, Skia, uses a layer-based architecture for drawing and compositing UI elements. The Flutter framework builds a layer tree as part of its rendering process. Each widget in a Flutter app corresponds to a node in this tree.\n\nWhen a new frame needs to be rendered, Flutter builds a new layer tree based on the current state of all the widgets. Each node in the tree represents a subtree of widgets, which are then combined into a single layer. These layers can be thought of as 2D surfaces that contain the drawing commands needed to render their corresponding widget subtrees.\n\nThe composition process begins at the root node (which is typically the MaterialApp or StatelessWidget that makes up your app's main entry point), and recursively traverses down the tree, building each layer based on the children's layers. Once all the layers have been built, they are composited together using Skia's hardware-accelerated compositing pipeline. This pipeline efficiently combines multiple layers by taking advantage of GPU capabilities, resulting in fast and smooth rendering.\n\nThis approach allows Flutter to effectively manage complex UIs with large numbers of widgets, as well as enable",
+        "metrics": {
+          "bleu": 0.017656921741131346,
+          "rouge1": 0.15909090909090912,
+          "rougeL": 0.1212121212121212,
+          "f1": 0.11673151750972763,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the Dart null safety feature?",
+        "reference": "Null safety is a feature in Dart that helps prevent null reference errors at compile time. With null safety, types are non-nullable by default — a variable of type String cannot be null. To allow null, you use the nullable type syntax with a question mark (String?). This eliminates an entire class of runtime errors related to null values.",
+        "generated": "Dart null safety is a new language feature in Dart that ensures that every variable has an explicit nullability annotation, preventing NullReferenceExceptions at compile time rather than runtime. This means that developers must explicitly declare that a variable can be null or not when defining its type. The null safety feature was introduced with Dart 2.12 to improve code reliability and reduce the occurrence of null-related bugs. In Flutter, which is built using Dart, this feature provides better control over handling null values and enhances the overall development experience.",
+        "metrics": {
+          "bleu": 0.08435421552047764,
+          "rouge1": 0.42666666666666675,
+          "rougeL": 0.29333333333333333,
+          "f1": 0.29729729729729726,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement QR code scanning in Flutter?",
+        "reference": "QR code scanning uses the mobile_scanner or qr_code_scanner packages. mobile_scanner provides MobileScanner widget with onDetect callback returning BarcodeCapture. Configure camera facing, torch, zoom, and barcode formats. For QR code generation, use the qr_flutter package with QrImageView widget. Handle camera permissions with permission_handler. Test on physical devices.",
+        "generated": "To implement QR code scanning in Flutter, you can use a plugin called `flutter_barcode_scanner`. Here's how to add it to your project:\n\n1. Add this dependency to your `pubspec.yaml` file under `dependencies` section:\n   ```yaml\n   flutter_barcode_scanner: ^1.2.0\n   ```\n\n2. Run `flutter pub get` command in your terminal to fetch the package.\n\n3. Import the package in your Dart file:\n   ```dart\n   import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';\n   ```\n\n4. Create a function to handle the QR code scan:\n   ```dart\n   Future<void> _scanQRCode() async {\n     String barcodeScanRes;\n     try {\n       final result = await FlutterBarcodeScanner.scan();\n       if (result == null) return;\n       setState(() {\n         barcodeScanRes = result.raw;\n       });\n     } catch (e) {\n       print(",
+        "metrics": {
+          "bleu": 0.030177341354967666,
+          "rouge1": 0.2111801242236025,
+          "rougeL": 0.13664596273291926,
+          "f1": 0.13513513513513514,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you use extension methods in Dart?",
+        "reference": "Extensions add methods to existing types. extension StringExtension on String { String capitalize() => '${this[0].toUpperCase()}${substring(1)}'; bool get isEmail => RegExp(r'^[\\w-\\.]+@[\\w-]+\\.[a-z]+$').hasMatch(this); String truncate(int maxLen) => length <= maxLen ? this : '${substring(0, maxLen)}...'; }. Usage: 'hello'.capitalize(); // Hello. 'test@email.com'.isEmail; // true. Extension on nullable: extension on int? { int orZero() => this ?? 0; }. Named extensions can be imported selectively.",
+        "generated": "In Dart, there isn't a concept of extension methods as in languages like C# or Kotlin. However, you can achieve similar functionality using mixins or static methods in classes. Here are both approaches:\n\n1. Mixins:\nCreate a new mixin containing the desired method(s) and apply it to the target class:\n\n```dart\nmixin StringExtensions {\n  String capitalize() => this[0].toUpperCase() + substring(1);\n}\n\nclass MyClass extends Object with StringExtensions {\n  final String name = \"John Doe\";\n\n  void main() {\n    print(name.capitalize); // prints \"John Doe\"\n  }\n}\n```\n\n2. Static methods:\nDefine the static method outside the target class, but make sure to include an instance of the target class as the first argument:\n\n```dart\nextension StringExtensions on String {\n  String capitalize() => this[0].toUpperCase() + substring(1);\n}\n\nclass MyClass {\n  final String name = \"John Doe\";\n\n  void main()",
+        "metrics": {
+          "bleu": 0.04921732753424349,
+          "rouge1": 0.23036649214659685,
+          "rougeL": 0.18848167539267013,
+          "f1": 0.15384615384615383,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement method channels with Kotlin and Swift?",
+        "reference": "Kotlin: In MainActivity, configure FlutterEngine and set MethodCallHandler on MethodChannel. Handle method calls in a when(call.method) block, returning result.success(data) or result.error(). Swift: In AppDelegate, register FlutterMethodChannel on FlutterViewController's binaryMessenger. Handle with channel.setMethodCallHandler { call, result in }. Both use StandardMessageCodec for serialization.",
+        "generated": "To implement method channels in Flutter using Kotlin for Android and Swift for iOS, follow these general steps:\n\n1. Create a basic plugin in Flutter using the `flutter create` command or your preferred IDE.\n\n2. For Android (Kotlin), add the dependency to your `build.gradle` file:\n```groovy\nimplementation 'com.google.firebase:firebase-core:19.5.0'\n implementation 'com.google.android.gms:play-services-tasks:18.0.0'\n implementation 'com.google.devtools.ksp:kotlin-kapt:1.4.31'\n annotationProcessor 'com.google.android.gms:play-services-annotation:17.3.1'\n kapt \"com.thede Andr es:kotlin-serialization:1.3.0\"\n```\n\n3. Implement the platform channel in Kotlin:\n```kotlin\nimport io.flutter.plugin.common.MethodChannel\nimport io.flutter.plugins.FlutterPluginBinding\n\nclass MethodChannel",
+        "metrics": {
+          "bleu": 0.024530909131952768,
+          "rouge1": 0.1686746987951807,
+          "rougeL": 0.08433734939759036,
+          "f1": 0.1565217391304348,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement deferred loading (lazy loading) in Flutter?",
+        "reference": "Deferred loading uses Dart's deferred as keyword to load libraries on demand: import 'heavy_feature.dart' deferred as heavy; then await heavy.loadLibrary(); heavy.startFeature(). This reduces initial app size by splitting code into separate JavaScript files (web) or loading code lazily. On mobile, deferred loading reduces initial compilation time.",
+        "generated": "In Flutter, you can implement lazy loading or deferred loading of images using the `ImageProvider` class and its subclasses like `SynchronousFileImageProvider` and `NetworkImageProvider`. By default, when an image is displayed in Flutter using the `Image` widget, it's loaded synchronously, which means the entire image is downloaded or loaded into memory before displaying it. This could lead to longer loading times and increased memory usage for large images.\n\nTo implement lazy loading or deferred loading, you can use a custom ImageProvider that loads the image data as needed. One common approach is to use a `FutureBuilder` or a `StreamBuilder` along with a `FadeInImage` or `SizedBox` to display a placeholder while the image is being loaded. Here's an example using a `FutureBuilder`:\n\n```dart\nimport 'package:flutter/material.dart';\n\nvoid main() {\n  runApp(MyApp());\n}\n\nclass MyApp extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return MaterialApp(\n      home: Scaffold(\n        appBar",
+        "metrics": {
+          "bleu": 0.0158468096164425,
+          "rouge1": 0.18274111675126903,
+          "rougeL": 0.1015228426395939,
+          "f1": 0.126984126984127,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement a custom InheritedWidget?",
+        "reference": "InheritedWidget efficiently passes data down the tree. class ThemeConfig extends InheritedWidget { final Color primaryColor; final double fontSize; const ThemeConfig({required this.primaryColor, required this.fontSize, required Widget child}) : super(child: child); static ThemeConfig of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ThemeConfig>()!; static ThemeConfig? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ThemeConfig>(); @override bool updateShouldNotify(ThemeConfig old) => primaryColor != old.primaryColor || fontSize != old.fontSize; }. Usage: ThemeConfig(primaryColor: Colors.blue, fontSize: 16, child: App()). Access: ThemeConfig.of(context).primaryColor. O(1) lookup, rebuilds dependents on change.",
+        "generated": "To create a custom InheritedWidget in Flutter, follow these steps:\n\n1. Create a new class that extends `InheritedWidget` and implements `BuildContext`'s `DependencyProvider`.\n2. Define the data type and a key for the inherited widget.\n3. Override the `build` method to create the widget tree based on the provided context and the data.\n4. Use the `dependencies` parameter of the constructor to specify the dependencies of your widget.\n5. Provide a getter method to access the data from any descendant widget using the `widget.inheritFromWidgetOfExactType()` method.\n\nHere is an example of creating a simple custom InheritedWidget called `ColorProvider`:\n\n```dart\nimport 'package:flutter/material.dart';\n\nclass ColorProvider extends InheritedWidget {\n  final Color color;\n\n  ColorProvider({required this.color, required Widget child}) : super(key: key, child: child);\n\n  static ColorProvider of(BuildContext context) =>\n      context.inheritFromWidgetOfExactType(ColorProvider)!;\n\n  @override",
+        "metrics": {
+          "bleu": 0.07346731859080782,
+          "rouge1": 0.29383886255924174,
+          "rougeL": 0.2180094786729858,
+          "f1": 0.21761658031088082,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is jank in Flutter and how do you identify it?",
+        "reference": "Jank is visible stuttering or frame drops in the UI, occurring when frames take longer than 16ms (for 60fps) to render. It is identified using Flutter DevTools' Performance view, which shows frame rendering times with red bars for jank frames. The timeline separates UI thread work (build/layout) from raster thread work (painting), helping pinpoint the bottleneck source.",
+        "generated": "Jank refers to the visible stuttering, lagging or jerky motion in a user interface (UI) during interaction, which can negatively impact the user experience in Flutter or any other mobile application development framework. It's typically caused by the UI not being able to keep up with the user's input, resulting in a lack of smoothness and responsiveness.\n\nTo identify jank in a Flutter app, you can perform the following tests:\n\n1. Frame Rate Test: Use tools like `flare_contacts` or `flame_benchmark` packages to measure the app's frame rate, which should ideally be at least 60 frames per second for a smooth user experience.\n2. Profiling: Use the integrated Dart profiling tools like the DevTools or the `dart:developer` package to identify performance bottlenecks and optimize your code.\n3. Hardware rendering: Ensure that the heavy rendering tasks are performed on the GPU rather than the CPU, as GPUs are much better suited for handling graphics and animations. This can be achieved using Flutter's built-in hardware rendering capabilities or by using libraries such as `flutter_native_",
+        "metrics": {
+          "bleu": 0.012702541556469535,
+          "rouge1": 0.24369747899159666,
+          "rougeL": 0.14285714285714285,
+          "f1": 0.18421052631578946,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the MediaQuery in Flutter?",
+        "reference": "MediaQuery is an InheritedWidget that provides information about the current device's screen properties, including size, orientation, padding, text scale factor, and brightness. It is accessed using MediaQuery.of(context) and is essential for building responsive UIs that adapt to different screen sizes and device configurations.",
+        "generated": "MediaQuery in Flutter is a widget that provides access to various media query data such as screen size, orientation, text scale factor, and padding. It can be used to build responsive user interfaces by allowing developers to retrieve the current media query data and adjust UI elements accordingly. The MediaQuery class in Flutter is typically used inside a MaterialApp or a CupertinoApp widget's builder function to wrap the entire application and provide access to the media query data throughout the app.",
+        "metrics": {
+          "bleu": 0.06688301374060028,
+          "rouge1": 0.39062499999999994,
+          "rougeL": 0.265625,
+          "f1": 0.30645161290322576,
+          "exact_match": 0.0
+        }
+      }
+    ]
+  },
+  "finetuned_model": {
+    "aggregate_metrics": {
+      "bleu": 0.036327568476443875,
+      "rouge1": 0.3190758343254595,
+      "rougeL": 0.18267200466995162,
+      "f1": 0.226300273202264,
+      "exact_match": 0.0
+    },
+    "per_sample": [
+      {
+        "question": "How do you implement a carousel/slider in Flutter?",
+        "reference": "Carousels use PageView with PageController(viewportFraction: 0.8) for visible adjacent pages. The carousel_slider package provides auto-play, infinite scroll, custom layout, and indicators. For smooth snapping, use PageView.custom with physics. Add page indicators using smooth_page_indicator or dots_indicator packages. Control programmatically via PageController.animateToPage().",
+        "generated": "Carousels use PageView with PageController, each page containing an Image or widget. Use PageIndicator (dots) and onPageChanged callback. With Swiper package, use Swiper(itemCount: 3, viewportFraction: 0.8, layout: Axis.horizontal, itemBuilder: (context, index) => Container(child: Text('Slide $index')), pagination: new SwiperPagination(alignment: Alignment.bottomCenter)). Navigate between slides using controller.animateToIndex(). For horizontal scrolling cards, wrap in SliverOverflowIndicator. Alternatives: GridView.builder(scrollDirection: Axis.horizontal).",
+        "metrics": {
+          "bleu": 0.07701746259069371,
+          "rouge1": 0.35398230088495575,
+          "rougeL": 0.19469026548672563,
+          "f1": 0.23404255319148937,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the Either type pattern in Flutter?",
+        "reference": "Either (from dartz or fpdart package) represents a value that is one of two types: Left (typically failure) or Right (typically success). Instead of throwing exceptions, functions return Either<Failure, Success>. Callers handle both cases with fold((failure) => ..., (success) => ...). This makes error handling explicit, composable, and forces callers to handle errors.",
+        "generated": "Either<L, R> is a type pattern that represents a computation that either succeeds with a value of type R or fails with an error of type L. It is used extensively in Dart package design to provide clear error handling boundaries between components. The Right constructor constructs a successful result and the Left constructor constructs an error. The mapLeft and flatMapLeft functions are used for error handling chains. It is a powerful pattern for composing asynchronous operations where errors need to be handled at each step.",
+        "metrics": {
+          "bleu": 0.03407251137531691,
+          "rouge1": 0.36231884057971014,
+          "rougeL": 0.2173913043478261,
+          "f1": 0.2446043165467626,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement multi-window support in Flutter desktop?",
+        "reference": "Flutter desktop multi-window support is still evolving. The approach involves creating multiple Flutter engine instances with separate entry points, or using platform-specific native code to manage windows with MethodChannel communication between them. The desktop_multi_window package provides a simpler API. Each window can have its own widget tree, state, and size.",
+        "generated": "Multi-window support is available on desktop platforms with showWindow() on Windows and macOS. This creates a separate window from the main application, allowing users to run multiple instances of your app side by side. Each window maintains its own widget tree and state, but shares application code. Use showWindow(WidgetsBindingDelegate(), initialBounds: Rect.fromLTRB(0, 0, 500, 500), minSize: Size(300, 400)) for configuring window size and position. Handle messages between windows via messenger plugin. Multiple windows share application data, enabling split-screen workflows.",
+        "metrics": {
+          "bleu": 0.056900547746537085,
+          "rouge1": 0.40579710144927533,
+          "rougeL": 0.2318840579710145,
+          "f1": 0.3125,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you inspect the widget tree in Flutter?",
+        "reference": "Methods: 1) Flutter Inspector in IDE: view widget hierarchy, select widgets, see properties. 2) DevTools Widget Inspector: interactive tree with details panel. 3) debugDumpApp() prints entire widget tree to console. 4) debugDumpRenderTree() shows render objects. 5) debugDumpLayerTree() shows compositing layers. 6) Add Debug Paint: debugPaintSizeEnabled = true shows layout boundaries. 7) MaterialApp(showSemanticsDebugger: true) shows accessibility tree. 8) Use WidgetInspectorService for programmatic access.",
+        "generated": "Flutter DevTools' Inspector tab shows the current widget tree with their properties and values. The Elements tab lists all elements on-screen with detailed info like size, position, and text content. The Timeline tab displays a visualization of frame rendering times and UI lifecycle events. It is essential for debugging performance issues and widget behavior. Use the inspect() function from Dart to open an element directly.",
+        "metrics": {
+          "bleu": 0.03716499092256819,
+          "rouge1": 0.23437499999999997,
+          "rougeL": 0.140625,
+          "f1": 0.15748031496062995,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement composable widgets in Flutter?",
+        "reference": "Composable widgets are small, focused widgets combined to create complex UIs. Use composition over inheritance — build complex widgets by nesting simple ones. Accept Widget parameters (like leading, trailing, header) for customizable slots. Use typedef for callback signatures. Builder pattern enables widget construction: MyWidget.primary(...), MyWidget.secondary(...). This promotes reusability and consistent API design.",
+        "generated": "Composable widgets are built from smaller components that can be reused across the app. Widgets are composed by creating a class with a constructor that takes child widgets, then returning them in build(context). Each component has a clear responsibility — for example, Row handles horizontal layout, Column handles vertical stacking, Expanded manages space distribution, Container provides padding, decoration, and constraints. Composition makes code easier to understand and maintain. The composition tree should follow the UI hierarchy, with high-level components handling overall layout and lower-level components handling individual pieces. Proper use of composition enables modular design and faster development.",
+        "metrics": {
+          "bleu": 0.0304822900527529,
+          "rouge1": 0.19607843137254902,
+          "rougeL": 0.13071895424836602,
+          "f1": 0.16,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement custom RenderObjects in Flutter?",
+        "reference": "Custom RenderObjects control layout, painting, and hit testing directly. Create a RenderBox subclass, override performLayout() to compute size and position children, paint() to draw using Canvas, and hitTestSelf/hitTestChildren for gesture detection. Create a corresponding SingleChildRenderObjectWidget or MultiChildRenderObjectWidget that creates and updates the RenderObject. This bypasses the framework layer for maximum control.",
+        "generated": "RenderObjects override computeLayers() to create ShapeLayer for drawing shapes, ContainerLayer for positioning children, and PaintInfoLayer for painting text. Register via registerWith() with a Factory. They have access to layer-level properties like bounds, parent constraints, and paint properties. Custom rendering provides low-level control over visuals but is complex. Prefer Widgets whenever possible.",
+        "metrics": {
+          "bleu": 0.03831308365624276,
+          "rouge1": 0.34285714285714286,
+          "rougeL": 0.19047619047619047,
+          "f1": 0.2549019607843137,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is InheritedWidget and how does it work?",
+        "reference": "InheritedWidget is the foundational mechanism for passing data down the widget tree efficiently. It sits in the tree and provides data to all descendants. Widgets access it via context.dependOnInheritedWidgetOfExactType<T>(). When data changes, only widgets that registered as dependents are rebuilt. Theme, MediaQuery, and Provider are all built on InheritedWidget.",
+        "generated": "InheritedWidget is a type of Widget that creates an inheritance tree through the InheritedWidget class. It stores a value that can be retrieved by any descendant widget using InheritedTheme, InheritedModel, or other inherited classes. The value propagates down from the closest ancestor with a non-null value. This pattern is used for shared state across widgets without needing to pass through every level. The InheritedWidget class requires overriding build, didChangeDependencies, and createState methods. The widget tree is rebuilt when the value changes, allowing descendants to react. It simplifies state management in complex widget hierarchies.",
+        "metrics": {
+          "bleu": 0.03845209354766735,
+          "rouge1": 0.33103448275862063,
+          "rougeL": 0.16551724137931031,
+          "f1": 0.2676056338028169,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is a CurvedAnimation in Flutter?",
+        "reference": "CurvedAnimation applies a non-linear curve to an Animation, modifying how the animation progresses over time. Instead of linear interpolation, it can ease in, ease out, bounce, or follow other mathematical curves. Flutter provides many built-in curves like Curves.easeInOut, Curves.bounceIn, and Curves.elasticOut. It wraps an AnimationController and is passed to Tweens.",
+        "generated": "CurvedAnimation creates an animation that follows a custom curve. It takes a parent Animation and a curve (either a named curve like ElasticInOut or CustomCurve). The result is an animation with non-linear progression. Curves are defined by a single function that maps time to value, allowing complex motion patterns beyond simple linear interpolation. They are commonly used for bouncing, elastic, and easing effects.",
+        "metrics": {
+          "bleu": 0.032961549112648605,
+          "rouge1": 0.45378151260504196,
+          "rougeL": 0.20168067226890757,
+          "f1": 0.30088495575221236,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement a loading overlay in Flutter?",
+        "reference": "Loading overlay uses Stack with a conditional overlay: Stack(children: [mainContent, if (isLoading) Container(color: Colors.black54, child: Center(child: CircularProgressIndicator()))]). Or use the loading_overlay package. Block taps during loading with AbsorbPointer. Show fullscreen loading with showDialog and CircularProgressIndicator. Use ModalBarrier for semi-transparent blocking.",
+        "generated": "Loading overlays use Positioned widgets over the entire screen. Show: Positioned(left: 0, top: 0, right: 0, bottom: 0, child: CircularProgressIndicator()). Dismiss: setState(() => showLoader = false). Customize with Opacity and Container for background color. Use Navigator.pushReplacement to prevent returning to the previous page. For spinner: CircularProgressIndicator(), LinearProgressIndicator, or custom AnimatedContainer animating between visible and hidden states. On Android, hide system UI with SystemUiManager.setSystemUiVisibility(). Combine with isLoading flag state.",
+        "metrics": {
+          "bleu": 0.027577260787461,
+          "rouge1": 0.3130434782608696,
+          "rougeL": 0.17391304347826086,
+          "f1": 0.20370370370370375,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you profile and optimize Flutter app performance?",
+        "reference": "Use Flutter DevTools Performance view to identify jank. Profile mode (flutter run --profile) provides production-like performance with debugging tools. Common optimizations: const constructors to avoid rebuilds, RepaintBoundary for isolated repainting, ListView.builder for lazy loading, pre-computed layouts, cached images, reduced widget depth, and avoiding expensive operations in build methods.",
+        "generated": "Profiling: flutter run --profile, DevTools Profiler tab (CPU, Heap, Frame). Identify hot paths. Optimize: use find-all for code duplication, avoid unnecessary widget rebuilds with shouldRebuild(), cache computed values with MemoizedWidget, remove unneeded package imports, reduce DOM complexity, optimize image loading (decodeListFromResponse), lazy load data, use immutable data structures, precompute constants, and use custom render objects for complex UI. Measure before/after impact. Track FPS in main() with debugPrint('FPS: $fps'). Use the Profiler API to log frame times.",
+        "metrics": {
+          "bleu": 0.026068947030297843,
+          "rouge1": 0.3538461538461539,
+          "rougeL": 0.16923076923076924,
+          "f1": 0.22580645161290325,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the difference between Flexible and Expanded?",
+        "reference": "Both distribute space in Row/Column. Expanded forces child to fill all remaining space (fit: FlexFit.tight). Flexible lets child be smaller than allocated space (fit: FlexFit.loose). Expanded(child: Container()) — container fills all available space. Flexible(child: Container()) — container can be smaller. Both accept flex parameter for proportional sizing: Expanded(flex: 2) takes twice the space of Expanded(flex: 1).",
+        "generated": "Flexible and Expanded both control how much space a widget takes up in a Row or Column with mainAxisAlignment set to MainAxisAlignment.start, center, end, or spaceBetween. The difference is that Flexible allows you to specify an exact flex value (e.g., Flexible(flex: 2)) while Expanded automatically distributes remaining space evenly among siblings (e.g., Expanded takes up the entire available width). Use Flexible for precise sizing and Expanded for proportional distribution. Both are used inside Row or Column, not directly on a child widget.",
+        "metrics": {
+          "bleu": 0.03279259658567187,
+          "rouge1": 0.3537414965986394,
+          "rougeL": 0.1904761904761905,
+          "f1": 0.2318840579710145,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How does Flutter's layer tree and compositing work?",
+        "reference": "After paint, Flutter creates a layer tree (Scene) that maps to GPU operations. Key layers: OffsetLayer (positioning), OpacityLayer (alpha), ClipRectLayer (clipping), TransformLayer (transforms), PictureLayer (draw commands), TextureLayer (platform textures). RepaintBoundary creates a separate OffsetLayer, enabling partial repaint. The raster thread composites layers, caching unchanged layers. Too many layers increase GPU memory and compositing cost. Profile with DevTools Layers tab. Impeller pre-compiles shaders, eliminating shader compilation jank.",
+        "generated": "Flutter uses a layer tree for efficient rendering. Each widget generates one or more layers: paint-based layers for simple shapes, text, and images, and composite layers for complex layouts. The engine computes a minimal set of layers from the widget tree using incremental rebuilding. Layers are composed in screen space to avoid expensive matrix transformations. Compositing is done in GPU using OpenGL ES 2.0 on Android and Metal on iOS. This enables fast updates without redrawing the entire screen. The layer tree is managed by the LayerTreeDelegate which handles adding, removing, and updating layers based on widget changes. Each frame, the engine runs the composition pipeline: sort layers, combine opaque layers, composite semi-transparent layers, and blend with background color. The result is an efficient, high-performance drawing pipeline that powers Flutter's responsive UI.",
+        "metrics": {
+          "bleu": 0.024167959690289724,
+          "rouge1": 0.21568627450980393,
+          "rougeL": 0.1372549019607843,
+          "f1": 0.16161616161616163,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the Dart null safety feature?",
+        "reference": "Null safety is a feature in Dart that helps prevent null reference errors at compile time. With null safety, types are non-nullable by default — a variable of type String cannot be null. To allow null, you use the nullable type syntax with a question mark (String?). This eliminates an entire class of runtime errors related to null values.",
+        "generated": "Dart null safety eliminates the null check overhead by ensuring all variables are initialized before use. The null-aware operator (??) returns the left value if it's not null, otherwise returns the right. The ??= operator assigns a non-null default. Null checks are optional with type annotations (int? x). Non-nullable types require initial assignment. This improves performance, simplifies code, and eliminates null-related bugs. It was introduced in Dart 2.14.",
+        "metrics": {
+          "bleu": 0.040165599595617996,
+          "rouge1": 0.38167938931297707,
+          "rougeL": 0.1984732824427481,
+          "f1": 0.2677165354330709,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement QR code scanning in Flutter?",
+        "reference": "QR code scanning uses the mobile_scanner or qr_code_scanner packages. mobile_scanner provides MobileScanner widget with onDetect callback returning BarcodeCapture. Configure camera facing, torch, zoom, and barcode formats. For QR code generation, use the qr_flutter package with QrImageView widget. Handle camera permissions with permission_handler. Test on physical devices.",
+        "generated": "Use qr_code_scanner package for live scanning or qr_flutter for generating codes. For scanning, set up camera with onScan callback: QRView(onQRViewCreated: (controller) => controller.startCamera());. Handle scan results with controller.scan();. Show a progress indicator during scan. For generating codes, use QrCode.fromString('data'). For barcodes, use barcode_scan package. Test on both iOS and Android. Handle permissions with flutter_platform_plugins. Display scanned data as text or UI elements.",
+        "metrics": {
+          "bleu": 0.04345994905956104,
+          "rouge1": 0.4193548387096774,
+          "rougeL": 0.24193548387096772,
+          "f1": 0.2962962962962963,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you use extension methods in Dart?",
+        "reference": "Extensions add methods to existing types. extension StringExtension on String { String capitalize() => '${this[0].toUpperCase()}${substring(1)}'; bool get isEmail => RegExp(r'^[\\w-\\.]+@[\\w-]+\\.[a-z]+$').hasMatch(this); String truncate(int maxLen) => length <= maxLen ? this : '${substring(0, maxLen)}...'; }. Usage: 'hello'.capitalize(); // Hello. 'test@email.com'.isEmail; // true. Extension on nullable: extension on int? { int orZero() => this ?? 0; }. Named extensions can be imported selectively.",
+        "generated": "Extension methods add functionality to existing classes without subclassing. Syntax: extension intExtensions on int { int squared() => this * this; }. Call as: 5.squared — works with final, const, and superclasses. Extension methods must be defined inside a library file. They cannot have access modifiers or constructors. They are not inherited by subclasses but can be used with super. They are statically dispatched at compile time. Use for common type-specific utility functions. Do not extend Object or dynamic as they prevent type checking.",
+        "metrics": {
+          "bleu": 0.03581994854172064,
+          "rouge1": 0.2222222222222222,
+          "rougeL": 0.16666666666666666,
+          "f1": 0.20833333333333331,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement method channels with Kotlin and Swift?",
+        "reference": "Kotlin: In MainActivity, configure FlutterEngine and set MethodCallHandler on MethodChannel. Handle method calls in a when(call.method) block, returning result.success(data) or result.error(). Swift: In AppDelegate, register FlutterMethodChannel on FlutterViewController's binaryMessenger. Handle with channel.setMethodCallHandler { call, result in }. Both use StandardMessageCodec for serialization.",
+        "generated": "Kotlin: @RegisterWith(Registrar(/*name*/)) class MyFlutterPlugin : MethodChannel.Invoker { override fun invokeMethod(method, args) { ... } }. Register with registrar in main method. Swift: @objc final class MyPlugin: NSObject, FlutterPluginBinding { func onMethodCall(@objc_info String name, @objc_info Arguments arguments, Result result) { ... } }. Implement plugin methods in Objective-C or Swift 5+. Both use flutter_plugin_registrar package for registration. Invoke from Dart with channel.invokeMethod('methodName', arg). Return Future<dynamic> from Swift/Kotlin to await callbacks.",
+        "metrics": {
+          "bleu": 0.03358588497653336,
+          "rouge1": 0.2857142857142857,
+          "rougeL": 0.18487394957983194,
+          "f1": 0.23423423423423426,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement deferred loading (lazy loading) in Flutter?",
+        "reference": "Deferred loading uses Dart's deferred as keyword to load libraries on demand: import 'heavy_feature.dart' deferred as heavy; then await heavy.loadLibrary(); heavy.startFeature(). This reduces initial app size by splitting code into separate JavaScript files (web) or loading code lazily. On mobile, deferred loading reduces initial compilation time.",
+        "generated": "Lazy load images with CachedNetworkImage's placeholder, memoryCacheSize, maxMemoryCacheSize, cacheManager for caching strategy, and width, height for size limit. Load only visible widgets using Visibility/AnimatedVisibility or scrolling strategies like AggregatedListView with ScrollController.fadeInPeriodic() for item fade-in on scroll. Use LazyLoadPaging for infinite lists with loading indicators. Control load order with FutureBuilder's future: async { await preload(); return data; }. Debounce load on user input to prevent flooding. Combine with throttling for rate limiting.",
+        "metrics": {
+          "bleu": 0.024571186786862934,
+          "rouge1": 0.19200000000000003,
+          "rougeL": 0.112,
+          "f1": 0.13675213675213674,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "How do you implement a custom InheritedWidget?",
+        "reference": "InheritedWidget efficiently passes data down the tree. class ThemeConfig extends InheritedWidget { final Color primaryColor; final double fontSize; const ThemeConfig({required this.primaryColor, required this.fontSize, required Widget child}) : super(child: child); static ThemeConfig of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ThemeConfig>()!; static ThemeConfig? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ThemeConfig>(); @override bool updateShouldNotify(ThemeConfig old) => primaryColor != old.primaryColor || fontSize != old.fontSize; }. Usage: ThemeConfig(primaryColor: Colors.blue, fontSize: 16, child: App()). Access: ThemeConfig.of(context).primaryColor. O(1) lookup, rebuilds dependents on change.",
+        "generated": "InheritedWidget extends StatelessWidget with InheritedWidgetMixin. Provide a value via the .of method in InheritedWidget's constructor, then override build(BuildContext context) to create a widget tree based on inherited values. Use InheritedTheme instead of extending ThemeData for theming. Update value via a notifyListeners() call. InheritedWidgets automatically rebuild when their parent changes. The InheritedModel class provides an easier-to-use alternative that does not require subclassing.",
+        "metrics": {
+          "bleu": 0.02438566743682368,
+          "rouge1": 0.22222222222222224,
+          "rougeL": 0.11111111111111112,
+          "f1": 0.1076923076923077,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is jank in Flutter and how do you identify it?",
+        "reference": "Jank is visible stuttering or frame drops in the UI, occurring when frames take longer than 16ms (for 60fps) to render. It is identified using Flutter DevTools' Performance view, which shows frame rendering times with red bars for jank frames. The timeline separates UI thread work (build/layout) from raster thread work (painting), helping pinpoint the bottleneck source.",
+        "generated": "Jank (jitter + frame drop) refers to dropped frames or inconsistent rendering causing stutters, lag, and poor user experience. Use DevTools Frame Explorer to diagnose: check for drops at 60fps, high frame latency, or large repaints. Optimize with: SizedBox(width: double.infinity), ListView.builder instead of for loop, avoid expensive computation on UI thread, use FutureBuilder with await on init, optimize heavy animations, and profile with frame profiler.",
+        "metrics": {
+          "bleu": 0.02886030108828523,
+          "rouge1": 0.288,
+          "rougeL": 0.192,
+          "f1": 0.18032786885245902,
+          "exact_match": 0.0
+        }
+      },
+      {
+        "question": "What is the MediaQuery in Flutter?",
+        "reference": "MediaQuery is an InheritedWidget that provides information about the current device's screen properties, including size, orientation, padding, text scale factor, and brightness. It is accessed using MediaQuery.of(context) and is essential for building responsive UIs that adapt to different screen sizes and device configurations.",
+        "generated": "MediaQuery provides access to device screen metrics (size, orientation, pixel ratio). Query for width, height, padding, available pixels, density, text scale, and more. Use MediaQuery.of(context) to retrieve the current media query object. It enables responsive design based on screen size and density. Avoid hard-coding layout dimensions with MediaQuery.of(context).size.width or .height. It's used extensively in adaptive UI frameworks like FlexLayout, Packaged_flutter_localizations, and Material Design.",
+        "metrics": {
+          "bleu": 0.03973153894532467,
+          "rouge1": 0.453781512605042,
+          "rougeL": 0.3025210084033613,
+          "f1": 0.339622641509434,
+          "exact_match": 0.0
+        }
+      }
+    ]
+  }
+}
