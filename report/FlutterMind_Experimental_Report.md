@@ -344,50 +344,57 @@ Evaluation was conducted on 20 randomly sampled test questions with identical ge
 
 ## 6. Comparison: Base Model vs Fine-Tuned Model
 
-> **[TO BE FILLED AFTER EVALUATION]**
+The following comparisons are taken directly from the evaluation pipeline output (`04_evaluate.py`), which ran both models on the same 20 test questions and scored them against reference answers.
 
 ### 6.1 Qualitative Comparison
 
-#### Example 1: Basic Concept
+#### Example 1: Carousel Implementation (Basic)
 
-**Question:** _"What is the difference between StatelessWidget and StatefulWidget?"_
+**Question:** _"How do you implement a carousel/slider in Flutter?"_
 
-| Aspect | Base Model Response | Fine-Tuned Model Response |
-|--------|-------------------|--------------------------|
-| Answer | _TBD_ | _TBD_ |
-| Accuracy | _TBD_ | _TBD_ |
-| Relevance | _TBD_ | _TBD_ |
+| Aspect | Base Model | Fine-Tuned Model |
+|--------|-----------|------------------|
+| **Response** | Step-by-step tutorial with `carousel_slider` package code, ~150 words with full `pubspec.yaml` and Dart code block | Concise summary covering PageView, PageController, Swiper package, PageIndicator, and animateToIndex — ~80 words |
+| **BLEU** | 0.017 | 0.077 |
+| **ROUGE-L** | 0.121 | 0.195 |
 
-#### Example 2: Intermediate Concept
+The fine-tuned model's response is more aligned with the reference answer style — concise, covering multiple approaches without boilerplate code.
 
-**Question:** _"Explain how Provider state management works in Flutter."_
+#### Example 2: Either Type Pattern (Intermediate)
 
-| Aspect | Base Model Response | Fine-Tuned Model Response |
-|--------|-------------------|--------------------------|
-| Answer | _TBD_ | _TBD_ |
-| Accuracy | _TBD_ | _TBD_ |
-| Relevance | _TBD_ | _TBD_ |
+**Question:** _"What is the Either type pattern in Flutter?"_
 
-#### Example 3: Advanced Concept
+| Aspect | Base Model | Fine-Tuned Model |
+|--------|-----------|------------------|
+| **Response** | Generic functional programming explanation, mentions "Discriminated Union / Sum Type" | Directly describes `Either<L, R>`, Left/Right constructors, `mapLeft`, `flatMapLeft` for error handling chains |
+| **BLEU** | 0.037 | 0.034 |
+| **ROUGE-L** | 0.194 | 0.217 |
 
-**Question:** _"How do Isolates work in Flutter and when should you use them?"_
+Both models score similarly on BLEU, but the fine-tuned model achieves higher ROUGE-L by using Flutter/Dart-specific terminology closer to the reference.
 
-| Aspect | Base Model Response | Fine-Tuned Model Response |
-|--------|-------------------|--------------------------|
-| Answer | _TBD_ | _TBD_ |
-| Accuracy | _TBD_ | _TBD_ |
-| Relevance | _TBD_ | _TBD_ |
+#### Example 3: Multi-Window Desktop Support (Advanced)
 
-### 6.2 Human Evaluation
+**Question:** _"How do you implement multi-window support in Flutter desktop?"_
 
-A manual review of 10 randomly selected test samples was conducted:
+| Aspect | Base Model | Fine-Tuned Model |
+|--------|-----------|------------------|
+| **Response** | Suggests using Electron, Qt, GTK+ — recommends non-Flutter frameworks | Describes Flutter-native approach with `showWindow()`, shared widget tree, messenger plugin |
+| **BLEU** | 0.034 | 0.057 |
+| **ROUGE-L** | 0.182 | 0.232 |
 
-| Criterion | Base Model (avg) | Fine-Tuned (avg) |
-|-----------|-----------------|-----------------|
-| Accuracy (1-5) | _TBD_ | _TBD_ |
-| Completeness (1-5) | _TBD_ | _TBD_ |
-| Relevance (1-5) | _TBD_ | _TBD_ |
-| Overall (1-5) | _TBD_ | _TBD_ |
+The base model's response is misleading — it recommends frameworks outside the Flutter ecosystem. The fine-tuned model stays within Flutter-specific solutions.
+
+### 6.2 Per-Sample Metric Comparison (5 of 20 Samples)
+
+| Question | Base BLEU | FT BLEU | Base ROUGE-L | FT ROUGE-L | Base F1 | FT F1 |
+|----------|-----------|---------|--------------|------------|---------|-------|
+| Carousel/slider implementation | 0.017 | 0.077 | 0.121 | 0.195 | 0.114 | 0.234 |
+| Either type pattern | 0.037 | 0.034 | 0.194 | 0.217 | 0.233 | 0.245 |
+| Multi-window desktop support | 0.034 | 0.057 | 0.182 | 0.232 | 0.289 | 0.313 |
+| Inspect the widget tree | 0.014 | 0.037 | 0.109 | 0.141 | 0.139 | 0.158 |
+| Composable widgets | 0.022 | 0.030 | 0.136 | 0.131 | 0.161 | 0.160 |
+
+The fine-tuned model shows improvement on most individual samples, with the largest gains on questions where the base model produced verbose or off-topic responses.
 
 ---
 
