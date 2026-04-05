@@ -1,0 +1,322 @@
+[
+  {
+    "instruction": "How do you implement a carousel/slider in Flutter?",
+    "input": "",
+    "output": "Carousels use PageView with PageController(viewportFraction: 0.8) for visible adjacent pages. The carousel_slider package provides auto-play, infinite scroll, custom layout, and indicators. For smooth snapping, use PageView.custom with physics. Add page indicators using smooth_page_indicator or dots_indicator packages. Control programmatically via PageController.animateToPage()."
+  },
+  {
+    "instruction": "What is the Either type pattern in Flutter?",
+    "input": "",
+    "output": "Either (from dartz or fpdart package) represents a value that is one of two types: Left (typically failure) or Right (typically success). Instead of throwing exceptions, functions return Either<Failure, Success>. Callers handle both cases with fold((failure) => ..., (success) => ...). This makes error handling explicit, composable, and forces callers to handle errors."
+  },
+  {
+    "instruction": "How do you implement multi-window support in Flutter desktop?",
+    "input": "",
+    "output": "Flutter desktop multi-window support is still evolving. The approach involves creating multiple Flutter engine instances with separate entry points, or using platform-specific native code to manage windows with MethodChannel communication between them. The desktop_multi_window package provides a simpler API. Each window can have its own widget tree, state, and size."
+  },
+  {
+    "instruction": "How do you inspect the widget tree in Flutter?",
+    "input": "",
+    "output": "Methods: 1) Flutter Inspector in IDE: view widget hierarchy, select widgets, see properties. 2) DevTools Widget Inspector: interactive tree with details panel. 3) debugDumpApp() prints entire widget tree to console. 4) debugDumpRenderTree() shows render objects. 5) debugDumpLayerTree() shows compositing layers. 6) Add Debug Paint: debugPaintSizeEnabled = true shows layout boundaries. 7) MaterialApp(showSemanticsDebugger: true) shows accessibility tree. 8) Use WidgetInspectorService for programmatic access."
+  },
+  {
+    "instruction": "How do you implement composable widgets in Flutter?",
+    "input": "",
+    "output": "Composable widgets are small, focused widgets combined to create complex UIs. Use composition over inheritance — build complex widgets by nesting simple ones. Accept Widget parameters (like leading, trailing, header) for customizable slots. Use typedef for callback signatures. Builder pattern enables widget construction: MyWidget.primary(...), MyWidget.secondary(...). This promotes reusability and consistent API design."
+  },
+  {
+    "instruction": "How do you implement custom RenderObjects in Flutter?",
+    "input": "",
+    "output": "Custom RenderObjects control layout, painting, and hit testing directly. Create a RenderBox subclass, override performLayout() to compute size and position children, paint() to draw using Canvas, and hitTestSelf/hitTestChildren for gesture detection. Create a corresponding SingleChildRenderObjectWidget or MultiChildRenderObjectWidget that creates and updates the RenderObject. This bypasses the framework layer for maximum control."
+  },
+  {
+    "instruction": "What is InheritedWidget and how does it work?",
+    "input": "",
+    "output": "InheritedWidget is the foundational mechanism for passing data down the widget tree efficiently. It sits in the tree and provides data to all descendants. Widgets access it via context.dependOnInheritedWidgetOfExactType<T>(). When data changes, only widgets that registered as dependents are rebuilt. Theme, MediaQuery, and Provider are all built on InheritedWidget."
+  },
+  {
+    "instruction": "What is a CurvedAnimation in Flutter?",
+    "input": "",
+    "output": "CurvedAnimation applies a non-linear curve to an Animation, modifying how the animation progresses over time. Instead of linear interpolation, it can ease in, ease out, bounce, or follow other mathematical curves. Flutter provides many built-in curves like Curves.easeInOut, Curves.bounceIn, and Curves.elasticOut. It wraps an AnimationController and is passed to Tweens."
+  },
+  {
+    "instruction": "How do you implement a loading overlay in Flutter?",
+    "input": "",
+    "output": "Loading overlay uses Stack with a conditional overlay: Stack(children: [mainContent, if (isLoading) Container(color: Colors.black54, child: Center(child: CircularProgressIndicator()))]). Or use the loading_overlay package. Block taps during loading with AbsorbPointer. Show fullscreen loading with showDialog and CircularProgressIndicator. Use ModalBarrier for semi-transparent blocking."
+  },
+  {
+    "instruction": "How do you profile and optimize Flutter app performance?",
+    "input": "",
+    "output": "Use Flutter DevTools Performance view to identify jank. Profile mode (flutter run --profile) provides production-like performance with debugging tools. Common optimizations: const constructors to avoid rebuilds, RepaintBoundary for isolated repainting, ListView.builder for lazy loading, pre-computed layouts, cached images, reduced widget depth, and avoiding expensive operations in build methods."
+  },
+  {
+    "instruction": "What is the difference between Flexible and Expanded?",
+    "input": "",
+    "output": "Both distribute space in Row/Column. Expanded forces child to fill all remaining space (fit: FlexFit.tight). Flexible lets child be smaller than allocated space (fit: FlexFit.loose). Expanded(child: Container()) — container fills all available space. Flexible(child: Container()) — container can be smaller. Both accept flex parameter for proportional sizing: Expanded(flex: 2) takes twice the space of Expanded(flex: 1)."
+  },
+  {
+    "instruction": "How does Flutter's layer tree and compositing work?",
+    "input": "",
+    "output": "After paint, Flutter creates a layer tree (Scene) that maps to GPU operations. Key layers: OffsetLayer (positioning), OpacityLayer (alpha), ClipRectLayer (clipping), TransformLayer (transforms), PictureLayer (draw commands), TextureLayer (platform textures). RepaintBoundary creates a separate OffsetLayer, enabling partial repaint. The raster thread composites layers, caching unchanged layers. Too many layers increase GPU memory and compositing cost. Profile with DevTools Layers tab. Impeller pre-compiles shaders, eliminating shader compilation jank."
+  },
+  {
+    "instruction": "What is the Dart null safety feature?",
+    "input": "",
+    "output": "Null safety is a feature in Dart that helps prevent null reference errors at compile time. With null safety, types are non-nullable by default — a variable of type String cannot be null. To allow null, you use the nullable type syntax with a question mark (String?). This eliminates an entire class of runtime errors related to null values."
+  },
+  {
+    "instruction": "How do you implement QR code scanning in Flutter?",
+    "input": "",
+    "output": "QR code scanning uses the mobile_scanner or qr_code_scanner packages. mobile_scanner provides MobileScanner widget with onDetect callback returning BarcodeCapture. Configure camera facing, torch, zoom, and barcode formats. For QR code generation, use the qr_flutter package with QrImageView widget. Handle camera permissions with permission_handler. Test on physical devices."
+  },
+  {
+    "instruction": "How do you use extension methods in Dart?",
+    "input": "",
+    "output": "Extensions add methods to existing types. extension StringExtension on String { String capitalize() => '${this[0].toUpperCase()}${substring(1)}'; bool get isEmail => RegExp(r'^[\\w-\\.]+@[\\w-]+\\.[a-z]+$').hasMatch(this); String truncate(int maxLen) => length <= maxLen ? this : '${substring(0, maxLen)}...'; }. Usage: 'hello'.capitalize(); // Hello. 'test@email.com'.isEmail; // true. Extension on nullable: extension on int? { int orZero() => this ?? 0; }. Named extensions can be imported selectively."
+  },
+  {
+    "instruction": "How do you implement method channels with Kotlin and Swift?",
+    "input": "",
+    "output": "Kotlin: In MainActivity, configure FlutterEngine and set MethodCallHandler on MethodChannel. Handle method calls in a when(call.method) block, returning result.success(data) or result.error(). Swift: In AppDelegate, register FlutterMethodChannel on FlutterViewController's binaryMessenger. Handle with channel.setMethodCallHandler { call, result in }. Both use StandardMessageCodec for serialization."
+  },
+  {
+    "instruction": "How do you implement deferred loading (lazy loading) in Flutter?",
+    "input": "",
+    "output": "Deferred loading uses Dart's deferred as keyword to load libraries on demand: import 'heavy_feature.dart' deferred as heavy; then await heavy.loadLibrary(); heavy.startFeature(). This reduces initial app size by splitting code into separate JavaScript files (web) or loading code lazily. On mobile, deferred loading reduces initial compilation time."
+  },
+  {
+    "instruction": "How do you implement a custom InheritedWidget?",
+    "input": "",
+    "output": "InheritedWidget efficiently passes data down the tree. class ThemeConfig extends InheritedWidget { final Color primaryColor; final double fontSize; const ThemeConfig({required this.primaryColor, required this.fontSize, required Widget child}) : super(child: child); static ThemeConfig of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ThemeConfig>()!; static ThemeConfig? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ThemeConfig>(); @override bool updateShouldNotify(ThemeConfig old) => primaryColor != old.primaryColor || fontSize != old.fontSize; }. Usage: ThemeConfig(primaryColor: Colors.blue, fontSize: 16, child: App()). Access: ThemeConfig.of(context).primaryColor. O(1) lookup, rebuilds dependents on change."
+  },
+  {
+    "instruction": "What is jank in Flutter and how do you identify it?",
+    "input": "",
+    "output": "Jank is visible stuttering or frame drops in the UI, occurring when frames take longer than 16ms (for 60fps) to render. It is identified using Flutter DevTools' Performance view, which shows frame rendering times with red bars for jank frames. The timeline separates UI thread work (build/layout) from raster thread work (painting), helping pinpoint the bottleneck source."
+  },
+  {
+    "instruction": "What is the MediaQuery in Flutter?",
+    "input": "",
+    "output": "MediaQuery is an InheritedWidget that provides information about the current device's screen properties, including size, orientation, padding, text scale factor, and brightness. It is accessed using MediaQuery.of(context) and is essential for building responsive UIs that adapt to different screen sizes and device configurations."
+  },
+  {
+    "instruction": "How do you implement a design system in Flutter?",
+    "input": "",
+    "output": "A Flutter design system includes: ThemeData/ThemeExtension for colors, typography, spacing tokens, custom widget library (buttons, inputs, cards) with consistent API, documentation with widgetbook or storybook_flutter for visual catalog, automated golden tests for visual regression, a separate package for reuse across projects, and design tokens synced with Figma via code generation."
+  },
+  {
+    "instruction": "What is the Hive database package in Flutter?",
+    "input": "",
+    "output": "Hive is a lightweight, fast key-value NoSQL database for Flutter. It stores data in typed boxes (Box<Type>) with type adapters generated via hive_generator for custom objects. It is faster than sqflite for simple read/write operations, supports encryption, and works on all platforms. Boxes are opened via Hive.openBox() and values accessed via box.get(key), box.put(key, value)."
+  },
+  {
+    "instruction": "How does the Provider.select method optimize rebuilds?",
+    "input": "",
+    "output": "Provider.select rebuilds the consumer widget only when a specific derived value changes, not when any property of the provided object changes. context.select<Model, String>((model) => model.name) rebuilds only when name changes. Without select, Consumer rebuilds on any model change. Selector widget provides the same optimization declaratively. This prevents unnecessary rebuilds in complex models."
+  },
+  {
+    "instruction": "What is the ScrollController in Flutter?",
+    "input": "",
+    "output": "ScrollController controls and monitors a scrollable widget's scroll position. It provides offset, animateTo(), jumpTo(), and addListener() for scroll events. It can be passed to ListView, GridView, or CustomScrollView via the controller property. It must be disposed in dispose() and is useful for scroll-to-top buttons, infinite scroll pagination, and parallax effects."
+  },
+  {
+    "instruction": "What is the difference between runApp() and void main()?",
+    "input": "",
+    "output": "void main() is the standard Dart entry point function that gets called when the app starts. runApp() is a Flutter-specific function called inside main() that takes a widget and attaches it as the root of the widget tree to the screen. main() can contain initialization code before runApp(), such as WidgetsFlutterBinding.ensureInitialized() for plugin setup."
+  },
+  {
+    "instruction": "How do you handle errors in Flutter?",
+    "input": "",
+    "output": "Flutter errors are handled through try-catch blocks for synchronous errors, .catchError() or try-catch with await for async errors, and FlutterError.onError for catching framework errors during widget building. For unhandled async errors, runZonedGuarded wraps the app to catch all uncaught exceptions. ErrorWidget.builder customizes the error display shown to users."
+  },
+  {
+    "instruction": "What is a Future in Dart?",
+    "input": "",
+    "output": "A Future represents a potential value or error that will be available at some time in the future. It is Dart's way of handling asynchronous operations. A Future can be in one of three states: uncompleted, completed with a value, or completed with an error. You can use await, .then(), or .catchError() to handle Future results."
+  },
+  {
+    "instruction": "How do you create a grid layout in Flutter?",
+    "input": "",
+    "output": "GridView creates a 2D scrollable grid. GridView.count(crossAxisCount: 2, children: [...]) for fixed column count. GridView.extent(maxCrossAxisExtent: 200) for max item width. GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 10, childAspectRatio: 1), itemBuilder: ...) for large lazy grids."
+  },
+  {
+    "instruction": "How do you implement multi-language support in Flutter?",
+    "input": "",
+    "output": "Multi-language support uses Flutter's localization system. Define supported locales in MaterialApp's supportedLocales. Create ARB files for each language (app_en.arb, app_es.arb). Configure l10n.yaml for code generation. Access strings via AppLocalizations.of(context)!.greeting. Handle text direction (LTR/RTL) with Directionality widget. Use intl package for plurals, dates, and number formatting."
+  },
+  {
+    "instruction": "What is the pubspec.yaml file in Flutter?",
+    "input": "",
+    "output": "The pubspec.yaml file is the configuration file for a Flutter/Dart project. It defines the project name, description, version, SDK constraints, dependencies, dev dependencies, and assets. Flutter uses this file to manage packages from pub.dev and to locate resources like images and fonts that the app uses."
+  },
+  {
+    "instruction": "How do you optimize image loading in Flutter?",
+    "input": "",
+    "output": "Image optimization: use cached_network_image for caching with placeholder/error widgets, ResizeImage to decode at display size (reducing memory), precacheImage for pre-loading, FadeInImage for smooth loading transitions, Image.memory for byte data, set cacheHeight/cacheWidth on Image for memory-efficient decoding. Use WebP format for smaller file sizes. Implement lazy loading for image-heavy lists."
+  },
+  {
+    "instruction": "How do you implement shared element transitions between screens?",
+    "input": "",
+    "output": "Shared element transitions use the Hero widget. Wrap a widget on the source screen with Hero(tag: 'unique-tag', child: Image()). Wrap the corresponding widget on the destination screen with the same Hero tag. When navigating, Flutter automatically animates the widget flying between the two positions. The tag must be unique within each screen's Hero scope."
+  },
+  {
+    "instruction": "How do you use AnimationController in Flutter?",
+    "input": "",
+    "output": "AnimationController drives animations over a duration. Requires SingleTickerProviderStateMixin (or TickerProviderStateMixin for multiple). late AnimationController _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));. Control: _controller.forward(), .reverse(), .repeat(), .stop(), .reset(). Value ranges 0.0 to 1.0 by default. Add listeners with addListener() for rebuilds, addStatusListener() for completion events. Always dispose in dispose()."
+  },
+  {
+    "instruction": "How do you implement InheritedNotifier in Flutter?",
+    "input": "",
+    "output": "InheritedNotifier combines InheritedWidget with a Listenable (ChangeNotifier, ValueNotifier, AnimationController). When the Listenable notifies, the InheritedNotifier automatically triggers dependent widget rebuilds. This eliminates manual setState calls. Create by extending InheritedNotifier<T extends Listenable>, pass the notifier to super, and provide a static of(context) method for access."
+  },
+  {
+    "instruction": "What is the didChangeDependencies() method in Flutter?",
+    "input": "",
+    "output": "didChangeDependencies() is a lifecycle method called when the State object's dependencies change, such as when an InheritedWidget that this widget depends on updates. It is called after initState() and whenever an inherited dependency changes. It is safe to call BuildContext-dependent methods here, unlike in initState()."
+  },
+  {
+    "instruction": "What are the key Dart data types?",
+    "input": "",
+    "output": "Dart's key data types include: int and double for numbers (both extend num), String for text, bool for booleans, List for ordered collections, Map for key-value pairs, Set for unique collections, and dynamic/Object for flexible typing. Dart also supports enums, records, and user-defined classes. All types are objects in Dart."
+  },
+  {
+    "instruction": "What is the CachedNetworkImage widget in Flutter?",
+    "input": "",
+    "output": "CachedNetworkImage from the cached_network_image package downloads and caches network images to disk. It provides placeholder (shown during loading), errorWidget (shown on failure), and smooth fade-in transition. It significantly improves performance and user experience for apps displaying many network images by avoiding redundant downloads."
+  },
+  {
+    "instruction": "What is a factory constructor in Dart?",
+    "input": "",
+    "output": "A factory constructor uses the factory keyword and doesn't always create a new instance. It can return cached instances, subtype instances, or computed instances. Unlike regular constructors, factory constructors can have return statements. They are used for the singleton pattern, instance caching, and returning subclass instances based on input parameters."
+  },
+  {
+    "instruction": "What is hot reload in Flutter?",
+    "input": "",
+    "output": "Hot reload is a feature in Flutter that allows developers to see code changes reflected in the running app almost instantly without losing the current application state. It works by injecting updated source code into the running Dart VM. This significantly speeds up the development cycle by eliminating the need for full app restarts during UI tweaks."
+  },
+  {
+    "instruction": "What is the Bloc Observer in the BLoC library?",
+    "input": "",
+    "output": "BlocObserver monitors all Bloc/Cubit instances globally. Override onCreate, onEvent, onChange, onTransition, onError, and onClose to log state changes, track analytics, or report errors. Set via Bloc.observer = MyObserver(). It provides a centralized location for debugging and monitoring all state management activity across the entire application."
+  },
+  {
+    "instruction": "What is the Flutter SDK?",
+    "input": "",
+    "output": "The Flutter SDK is a complete software development kit that includes the Flutter framework, Dart SDK, development tools, and command-line utilities. It provides the flutter command for creating projects, running apps, building releases, and managing dependencies. The SDK also includes the Flutter engine (written in C++) that handles rendering, platform interaction, and Dart runtime."
+  },
+  {
+    "instruction": "How do you handle errors with Result types in Dart?",
+    "input": "",
+    "output": "Sealed class Result pattern: sealed class Result<T> {} class Success<T> extends Result<T> { final T data; Success(this.data); } class Failure<T> extends Result<T> { final String message; Failure(this.message); }. Usage: Future<Result<User>> getUser(int id) async { try { final user = await api.fetchUser(id); return Success(user); } catch (e) { return Failure(e.toString()); } }. Handle: switch(result) { case Success(:final data) => showUser(data), case Failure(:final message) => showError(message) }. Avoids throwing exceptions for expected failures."
+  },
+  {
+    "instruction": "How do you implement particle effects in Flutter?",
+    "input": "",
+    "output": "Custom particle system with CustomPainter: class ParticleSystem { List<Particle> particles = []; void emit(Offset position, int count) { particles.addAll(List.generate(count, (_) => Particle(position: position, velocity: Offset(random.nextDouble() * 4 - 2, random.nextDouble() * -4), life: 1.0, color: Colors.orange))); } void update(double dt) { for (var p in particles) { p.position += p.velocity * dt; p.velocity += Offset(0, 9.8 * dt); // gravity p.life -= dt; } particles.removeWhere((p) => p.life <= 0); } }. Paint in CustomPainter, drive with Ticker. Use for confetti, explosions, snow effects."
+  },
+  {
+    "instruction": "How do you implement HTTP networking in Flutter?",
+    "input": "",
+    "output": "Flutter uses the http package for simple HTTP calls: http.get(), http.post(), with responses containing statusCode, body, and headers. For advanced features, the dio package provides interceptors, timeout configuration, request cancellation, FormData upload, download progress, and automatic JSON serialization. Both return Futures that should be awaited, and responses should be decoded from JSON."
+  },
+  {
+    "instruction": "How do you implement OAuth2/OpenID Connect in Flutter?",
+    "input": "",
+    "output": "Use flutter_appauth package for RFC-compliant flow. final result = await FlutterAppAuth().authorizeAndExchangeCode(AuthorizationTokenRequest('client_id', 'com.app:/callback', discoveryUrl: 'https://auth.server/.well-known/openid-configuration', scopes: ['openid', 'profile', 'email']));. Store tokens: await secureStorage.write(key: 'access_token', value: result.accessToken);. Refresh: final refreshResult = await FlutterAppAuth().token(TokenRequest('client_id', 'com.app:/callback', refreshToken: storedRefreshToken));. Add Dio interceptor for auto-refresh on 401. PKCE is used by default for security."
+  },
+  {
+    "instruction": "What is the DatePicker in Flutter?",
+    "input": "",
+    "output": "Flutter provides showDatePicker() function that displays a Material Design date picker dialog. It takes initialDate, firstDate, lastDate parameters and returns a Future<DateTime?>. The date picker supports calendar and input modes. showDateRangePicker() allows selecting a date range. For iOS-style, CupertinoDatePicker is available."
+  },
+  {
+    "instruction": "How do you implement deep link handling with universal links and app links?",
+    "input": "",
+    "output": "Universal links (iOS) require apple-app-site-association file on your domain, Associated Domains entitlement in Xcode. App Links (Android) require assetlinks.json on your domain, intent-filter with autoVerify in AndroidManifest. In Flutter, use app_links package: AppLinks().uriLinkStream.listen((uri) { router.go(uri.path); }). Handle initial link: AppLinks().getInitialLink(). Configure GoRouter with redirect logic for deep link paths. Test with adb shell am start and xcrun simctl openurl."
+  },
+  {
+    "instruction": "What are Widget keys used for in Flutter?",
+    "input": "",
+    "output": "Keys help Flutter's reconciliation algorithm identify and preserve widget state. ValueKey uses a value for identity, ObjectKey uses object identity, UniqueKey is always unique, GlobalKey provides access to state from anywhere. Keys are essential in lists (ListView.builder items), animated lists, Form fields, and when reordering widgets to preserve state correctly."
+  },
+  {
+    "instruction": "How does tree shaking work in Flutter?",
+    "input": "",
+    "output": "Tree shaking removes unused code during AOT compilation for release builds. The Dart compiler performs whole-program analysis, starting from main() and tracing all reachable code. Unreachable functions, classes, and methods are eliminated from the final binary. Icons are also tree-shaken if unused. Conditional imports and deferred loading affect what code is included. Tree shaking significantly reduces app size."
+  },
+  {
+    "instruction": "How do you implement drag and drop in Flutter?",
+    "input": "",
+    "output": "Flutter provides Draggable<T> for draggable items and DragTarget<T> for drop zones. Draggable has child (default appearance), feedback (while dragging), childWhenDragging (placeholder), and onDragCompleted. DragTarget has builder (showing drop state) and onAcceptWithDetails callback. LongPressDraggable requires a long press to start dragging. Data of type T is passed from Draggable to DragTarget."
+  },
+  {
+    "instruction": "What is the difference between hot reload and hot restart in Flutter?",
+    "input": "",
+    "output": "Hot reload injects updated code into the running Dart VM and preserves the current app state, making it nearly instantaneous. Hot restart, on the other hand, completely restarts the app from scratch, resetting all state. Hot reload is used for UI changes, while hot restart is needed when changes affect app initialization, global variables, or static fields."
+  },
+  {
+    "instruction": "How do you set up CI/CD for a Flutter project?",
+    "input": "",
+    "output": "Flutter CI/CD can be set up using GitHub Actions, GitLab CI, Codemagic, or Fastlane. A typical pipeline includes: linting (flutter analyze), running tests (flutter test), building the app (flutter build apk/ipa), and deploying to stores. Codemagic provides Flutter-specific workflows. GitHub Actions uses the subosito/flutter-action for environment setup. Fastlane automates store submissions."
+  },
+  {
+    "instruction": "How do you implement a micro-frontend architecture in Flutter?",
+    "input": "",
+    "output": "Micro-frontends in Flutter use modular packages for independent feature development. Each feature is a separate package with its own routes, state, and tests. The main app composes features via dependency injection and route registration. Communication uses an event bus or shared abstractions. This enables independent team development, separate CI/CD, and feature isolation."
+  },
+  {
+    "instruction": "How do you use build_runner for code generation in Flutter?",
+    "input": "",
+    "output": "build_runner generates code from annotations. Setup: add build_runner and generators (json_serializable, freezed, mockito) to dev_dependencies. Annotate: @JsonSerializable() class User { final String name; User(this.name); factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json); Map<String, dynamic> toJson() => _$UserToJson(this); }. Generate: dart run build_runner build. Watch: dart run build_runner watch. Clean: dart run build_runner clean. Generated files end in .g.dart or .freezed.dart. Add to .gitignore or commit — team preference."
+  },
+  {
+    "instruction": "How do you use Hive for local storage in Flutter?",
+    "input": "",
+    "output": "Hive is a fast key-value database. Setup: await Hive.initFlutter(); var box = await Hive.openBox('settings');. Write: box.put('key', 'value'); box.putAll({'a': 1, 'b': 2});. Read: var val = box.get('key', defaultValue: 'default');. Delete: box.delete('key');. For custom objects: extend HiveObject with @HiveType, @HiveField annotations. Register adapter: Hive.registerAdapter(UserAdapter());. Encrypted box: Hive.openBox('secure', encryptionCipher: HiveAesCipher(key));. Hive is synchronous for reads, async for writes."
+  },
+  {
+    "instruction": "What is the lib folder in a Flutter project?",
+    "input": "",
+    "output": "The lib folder is the main directory for all Dart source code in a Flutter project. It contains main.dart as the app entry point and all other Dart files organized into subdirectories. Only code within the lib folder is compiled into the final application. It is common to organize this folder into subfolders like screens/, widgets/, models/, services/, and utils/."
+  },
+  {
+    "instruction": "What is the purpose of the setState() method in Flutter?",
+    "input": "",
+    "output": "setState() is a method available in the State class of a StatefulWidget. It notifies the Flutter framework that the internal state has changed and the UI needs to be rebuilt. When called, it triggers a call to the build() method, which reconstructs the widget tree with updated state values. It should only be used for state changes that affect the UI."
+  },
+  {
+    "instruction": "What is a PageRouteBuilder in Flutter?",
+    "input": "",
+    "output": "PageRouteBuilder is a utility class for creating custom page route transitions. It takes a pageBuilder for the destination widget and a transitionsBuilder for defining custom animations. This allows you to create slide, fade, scale, or rotation transitions between screens without creating a full custom Route class."
+  },
+  {
+    "instruction": "How do you implement pull-to-refresh with pagination?",
+    "input": "",
+    "output": "Combine RefreshIndicator with ScrollController-based pagination. RefreshIndicator's onRefresh resets the page counter and reloads the first page. ScrollController's listener detects scroll-to-bottom for loading the next page. Maintain loading state to prevent duplicate requests. Show a loading indicator at the bottom of the list while fetching the next page."
+  },
+  {
+    "instruction": "What is tree shaking in Flutter?",
+    "input": "",
+    "output": "Tree shaking is a compiler optimization that removes unused code from the final build. During release mode compilation, the Dart compiler analyzes which classes, functions, and methods are actually referenced and excludes everything else. This reduces app size by eliminating dead code. It works with AOT compilation and is automatic in Flutter release builds."
+  },
+  {
+    "instruction": "What is the purpose of the const constructor in Flutter widgets?",
+    "input": "",
+    "output": "A const constructor creates compile-time constant widgets, meaning the same widget instance is reused across rebuilds. This improves performance because Flutter can skip rebuilding const widgets since they never change. Using const with widgets like Text, Icon, Padding, and SizedBox is a recommended optimization practice."
+  },
+  {
+    "instruction": "How do you show a SnackBar in Flutter?",
+    "input": "",
+    "output": "Show a SnackBar with ScaffoldMessenger: ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Message'), action: SnackBarAction(label: 'Undo', onPressed: () {}), duration: Duration(seconds: 3))). SnackBars appear at the bottom of the screen and auto-dismiss. ScaffoldMessenger.of(context).hideCurrentSnackBar() to dismiss manually."
+  },
+  {
+    "instruction": "What is the mockito package used for in Flutter testing?",
+    "input": "",
+    "output": "mockito creates mock objects for testing by generating fake implementations of classes. Annotate with @GenerateMocks([ClassName]) and run build_runner to generate mocks. Use when(mock.method()).thenReturn(value) to stub behavior, verify(mock.method()) to check calls, and verifyNever() to ensure methods weren't called. It isolates units from external dependencies like APIs and databases."
+  },
+  {
+    "instruction": "How do you implement a responsive grid layout?",
+    "input": "",
+    "output": "Responsive grids adapt columns to screen width. Use LayoutBuilder to get constraints, calculate crossAxisCount: (constraints.maxWidth / 200).floor(). GridView.builder with SliverGridDelegateWithFixedCrossAxisCount or WithMaxCrossAxisExtent. Alternatively, use Wrap with fixed-width children for flowing layout. The responsive_grid or flutter_staggered_grid_view packages add more responsive grid options."
+  }
+]

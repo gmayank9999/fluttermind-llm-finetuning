@@ -1,0 +1,322 @@
+[
+  {
+    "instruction": "What are implicit animations in Flutter?",
+    "input": "",
+    "output": "Implicit animations are pre-built animated widgets that automatically animate when their properties change. They include AnimatedContainer, AnimatedOpacity, AnimatedPadding, AnimatedPositioned, AnimatedCrossFade, and AnimatedDefaultTextStyle. They require only a duration and optional curve parameter, handling all animation logic internally. They are the simplest way to add animations."
+  },
+  {
+    "instruction": "How do you implement custom transitions with SharedAxisTransition?",
+    "input": "",
+    "output": "SharedAxisTransition from the animations package implements Material motion patterns. It transitions between two widgets along a shared axis (horizontal, vertical, or scaled). Use PageTransitionSwitcher with SharedAxisTransitionBuilder. Configure transitionType (SharedAxisTransitionType.horizontal/vertical/scaled). Other Material transitions include FadeThroughTransition, FadeScaleTransition, and OpenContainer for container transform."
+  },
+  {
+    "instruction": "How does Dart's zone system work?",
+    "input": "",
+    "output": "Zones in Dart provide an execution context for asynchronous operations. They can intercept and transform: timer creation (scheduleMicrotask), error handling (uncaught errors), print output, and async callbacks. runZonedGuarded captures uncaught async errors. Flutter's framework runs in a zone to catch and report errors. Zones enable features like async stack traces and centralized error logging."
+  },
+  {
+    "instruction": "How do you implement app-wide exception boundaries in Flutter?",
+    "input": "",
+    "output": "Exception boundaries prevent crashes from propagating. class ErrorBoundary extends StatefulWidget { final Widget child; ErrorBoundary({required this.child}); @override State<ErrorBoundary> createState() => _ErrorBoundaryState(); } class _ErrorBoundaryState extends State<ErrorBoundary> { Widget? _errorWidget; @override void initState() { super.initState(); } @override Widget build(context) { if (_errorWidget != null) return _errorWidget!; return widget.child; } }. ErrorWidget.builder = (details) => ErrorBoundary.buildError(details);. Wrap feature modules: ErrorBoundary(child: ChatModule()). Log errors to crash reporting. Show retry button in error UI."
+  },
+  {
+    "instruction": "How do you implement background geolocation tracking in Flutter?",
+    "input": "",
+    "output": "Use geolocator + flutter_background_service. Setup: final service = FlutterBackgroundService(); await service.configure(androidConfiguration: AndroidConfiguration(onStart: onStart, isForegroundMode: true, notificationChannelId: 'location', notificationTitle: 'Tracking'), iosConfiguration: IosConfiguration(autoStart: true));. @pragma('vm:entry-point') void onStart(ServiceInstance service) { Timer.periodic(Duration(seconds: 30), (_) async { final pos = await Geolocator.getCurrentPosition(); service.invoke('locationUpdate', {'lat': pos.latitude, 'lng': pos.longitude}); }); }. Listen: service.on('locationUpdate').listen((data) => updateMap(data)). Request background location permission."
+  },
+  {
+    "instruction": "How do you implement form autofill in Flutter?",
+    "input": "",
+    "output": "Form autofill uses AutofillGroup wrapping TextFormFields with autofillHints: AutofillGroup(child: Column(children: [TextFormField(autofillHints: [AutofillHints.email]), TextFormField(autofillHints: [AutofillHints.password])])). Call TextInput.finishAutofillContext() on form submit. Supports email, password, name, phone, address autofill. Works with platform password managers and browser autofill on web."
+  },
+  {
+    "instruction": "How do you reduce Flutter app size?",
+    "input": "",
+    "output": "Reduce Flutter app size by: using --split-debug-info to extract debug symbols, enabling code obfuscation with --obfuscate, using app bundles instead of APKs for Android, removing unused packages and assets, compressing images, using deferred loading for rarely used features, enabling R8/ProGuard for Android, and running flutter build with --analyze-size to identify large components."
+  },
+  {
+    "instruction": "What are keys in Flutter and when to use them?",
+    "input": "",
+    "output": "Keys identify widgets across builds, preserving state correctly. Without keys, Flutter matches widgets by position. ValueKey uses a value (id) for identity. ObjectKey uses an object reference. UniqueKey creates a unique identity each time. GlobalKey provides cross-tree identity. Use keys in lists, when reordering widgets, or when widget type is the same but identity differs."
+  },
+  {
+    "instruction": "How do you implement Firestore offline persistence and conflict resolution?",
+    "input": "",
+    "output": "Firestore has built-in offline support. Enable: FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);. Offline writes are queued and synced: firestore.collection('todos').add({'title': 'test', 'timestamp': FieldValue.serverTimestamp()});. Listen with metadata: snapshots(includeMetadataChanges: true).listen((snap) { final isFromCache = snap.metadata.isFromCache; });. Conflict resolution: last-write-wins by default. For custom: use transactions: firestore.runTransaction((txn) async { final doc = await txn.get(ref); txn.update(ref, {'count': doc['count'] + 1}); });."
+  },
+  {
+    "instruction": "What is the Opacity widget?",
+    "input": "",
+    "output": "Opacity controls a child's transparency: Opacity(opacity: 0.5, child: Image(...)). Values range from 0.0 (invisible) to 1.0 (fully visible). Opacity is expensive because it creates a separate layer for compositing. For simple show/hide, use Visibility widget instead. AnimatedOpacity provides smooth opacity transitions with a duration and curve."
+  },
+  {
+    "instruction": "How do you implement BLoC-to-BLoC communication?",
+    "input": "",
+    "output": "BLoC-to-BLoC communication options: 1) Inject one BLoC into another via constructor for direct access. 2) Use StreamSubscription to listen to another BLoC's stream. 3) In the UI layer, use BlocListener on one BLoC to add events to another. 4) Use a shared repository/service both BLoCs depend on. 5) Event bus pattern with a shared Stream. Option 3 is recommended for clarity."
+  },
+  {
+    "instruction": "What is the Positioned widget?",
+    "input": "",
+    "output": "Positioned places a child within a Stack at specific coordinates. Positioned(top: 10, left: 20, child: widget). Properties: top, bottom, left, right, width, height. Positioned.fill fills the entire Stack. Positioned.directional supports RTL layouts. Only works as a direct child of Stack. Combine top+bottom or left+right to stretch the child."
+  },
+  {
+    "instruction": "How do you create a Card widget in Flutter?",
+    "input": "",
+    "output": "Card is a Material design panel with elevation. Card(elevation: 4, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), margin: EdgeInsets.all(8), child: Padding(padding: EdgeInsets.all(16), child: Column(children: [Text('Title'), Text('Content')]))). Card inherits theme's cardColor. Use InkWell inside for tap effects. Card clips children based on clipBehavior. Material 3 cards: Card.filled(), Card.outlined()."
+  },
+  {
+    "instruction": "What is the Skia rendering engine?",
+    "input": "",
+    "output": "Skia is an open-source 2D graphics library that Flutter uses for rendering. It provides drawing APIs for shapes, text, images, and effects that work across platforms. Skia compiles shaders just-in-time during runtime, which can cause initial jank. On iOS, Flutter is transitioning from Skia to Impeller, which pre-compiles shaders for smoother performance."
+  },
+  {
+    "instruction": "What is the SliverAppBar widget in Flutter?",
+    "input": "",
+    "output": "SliverAppBar is a Material Design app bar that integrates with CustomScrollView to create collapsing, expanding, or floating header effects. It supports pinned (stays visible), floating (reappears on scroll up), and snap behavior. The flexibleSpace property allows adding content that expands/collapses with the app bar, commonly used with FlexibleSpaceBar."
+  },
+  {
+    "instruction": "How do you debounce search input in Flutter?",
+    "input": "",
+    "output": "Debouncing delays action until user stops typing. Timer? _debounce; void _onSearchChanged(String query) { if (_debounce?.isActive ?? false) _debounce!.cancel(); _debounce = Timer(Duration(milliseconds: 500), () { performSearch(query); }); }. TextFormField(onChanged: _onSearchChanged);. Dispose: _debounce?.cancel() in dispose(). With RxDart: _searchSubject.debounceTime(Duration(milliseconds: 500)).distinct().switchMap((query) => searchApi(query)).listen((results) => setState(() => _results = results)). Prevents excessive API calls."
+  },
+  {
+    "instruction": "What is state management in Flutter?",
+    "input": "",
+    "output": "State management refers to how you store, access, and update the application's data across widgets. Flutter offers multiple approaches: setState for local widget state, InheritedWidget for passing data down the tree, Provider for dependency injection and reactive state, Bloc for event-driven state with streams, Riverpod for compile-safe state management, and GetX for simplified reactive state."
+  },
+  {
+    "instruction": "How do you implement advanced navigation patterns with nested routers?",
+    "input": "",
+    "output": "Nested routers use separate Navigator widgets for independent navigation stacks. GoRouter supports this with ShellRoute for shared UI (like bottom nav) around child routes. Each tab maintains its own navigation stack. AutoRoute uses AutoTabsRouter for similar functionality. Key challenges: handling system back button, deep linking to nested pages, and state preservation across tabs."
+  },
+  {
+    "instruction": "How does Flutter handle memory management?",
+    "input": "",
+    "output": "Flutter uses Dart's garbage collector for memory management. Dart employs a generational garbage collection strategy with a young generation space (fast allocation, frequent minor GC) and an old generation space (promoted long-lived objects, infrequent major GC). Flutter also manages GPU memory for textures and layers. Memory leaks commonly occur from undisposed controllers, uncancelled subscriptions, and circular references."
+  },
+  {
+    "instruction": "How do you implement scroll-to-top functionality in Flutter?",
+    "input": "",
+    "output": "Use ScrollController: final _scrollController = ScrollController();. Scroll to top: _scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.easeOut);. Show FAB when scrolled: _scrollController.addListener(() { setState(() => _showScrollToTop = _scrollController.offset > 200); });. FloatingActionButton(onPressed: () => _scrollController.animateTo(0, ...), child: Icon(Icons.arrow_upward), mini: true). Dispose controller in dispose()."
+  },
+  {
+    "instruction": "What is the Dart const constructor?",
+    "input": "",
+    "output": "A const constructor creates compile-time constant objects. All fields must be final. Instances created with const keyword are canonicalized — identical const objects share the same memory. In Flutter, const constructors optimize performance by allowing the framework to skip rebuilding unchanged const widgets. Use const for immutable widgets and values wherever possible."
+  },
+  {
+    "instruction": "How do you handle JSON serialization in Flutter?",
+    "input": "",
+    "output": "Flutter handles JSON serialization in two ways: 1) Manual — write fromJson() factory constructor and toJson() method using dart:convert's json.decode/encode. 2) Code generation — use json_serializable and json_annotation packages with build_runner to auto-generate serialization code. The latter reduces boilerplate and errors. Classes annotated with @JsonSerializable() get generated fromJson/toJson."
+  },
+  {
+    "instruction": "How do you implement efficient list rendering for large datasets?",
+    "input": "",
+    "output": "Efficient large lists: 1) ListView.builder for lazy item creation — only builds visible items plus pre-cache extent. 2) Use const widgets for static items. 3) Cache item heights with AutomaticKeepAliveClientMixin for consistent scrolling. 4) Use RepaintBoundary per item for isolated repaints. 5) Avoid expensive computations in itemBuilder — precompute data. 6) Use CacheExtent to control how many items are pre-rendered. 7) For heterogeneous items, prefer SliverList over ListView. 8) Implement proper keys for stateful items. 9) Use indexed_list_view for massive lists."
+  },
+  {
+    "instruction": "What is the InkWell widget?",
+    "input": "",
+    "output": "InkWell adds a Material ink splash effect on tap. Wrap any widget: InkWell(onTap: () {}, borderRadius: BorderRadius.circular(8), splashColor: Colors.blue.withOpacity(0.3), child: customWidget). It requires a Material ancestor for the ink effect to render. InkResponse provides a circular splash. Use for custom tappable widgets that need Material feedback."
+  },
+  {
+    "instruction": "How do you implement local storage in Flutter?",
+    "input": "",
+    "output": "Flutter provides multiple local storage options: SharedPreferences for simple key-value pairs (primitives), sqflite for SQLite databases (structured data), hive for fast NoSQL key-value storage, drift (formerly moor) for type-safe SQLite with reactive queries, and path_provider for getting platform-specific directories to store files. Choice depends on data complexity and performance needs."
+  },
+  {
+    "instruction": "How do you optimize widget rebuild performance in Flutter?",
+    "input": "",
+    "output": "Minimize rebuilds: 1) const constructors: const Text('Hello') never rebuilds. 2) Extract widgets: break large build methods into smaller StatelessWidgets. 3) Use Selector/Consumer in Provider to rebuild only affected parts. 4) Avoid rebuilding entire lists: use keys for stable identity. 5) RepaintBoundary isolates paint calls. 6) late final for computed values. 7) didUpdateWidget check: if (old.id != widget.id) refetch();. 8) debugPrintRebuildDirtyWidgets = true to track rebuilds. 9) Use AnimatedBuilder instead of addListener+setState."
+  },
+  {
+    "instruction": "How do you implement video playback in Flutter?",
+    "input": "",
+    "output": "Video playback uses the video_player package. Initialize VideoPlayerController with network URL, asset, or file. Call controller.initialize() (async), then play(), pause(), seekTo(). Display with AspectRatio and VideoPlayer widget. Overlay custom controls. The chewie package provides pre-built controls with fullscreen, playback speed, and progress bar."
+  },
+  {
+    "instruction": "What is the difference between AppBar and SliverAppBar?",
+    "input": "",
+    "output": "AppBar is a fixed-height Material app bar used in Scaffold's appBar property. SliverAppBar is used inside CustomScrollView and supports scrolling effects: floating (reappears on scroll up), pinned (stays visible), snap (snaps open/closed), expandedHeight (expanded size), and flexibleSpace for collapsible content. SliverAppBar enables parallax scrolling effects."
+  },
+  {
+    "instruction": "How do you implement EventChannel for streaming platform data?",
+    "input": "",
+    "output": "EventChannel streams continuous data from native to Dart. Dart: final _channel = EventChannel('com.app/sensor'); Stream<double> get sensorStream => _channel.receiveBroadcastStream().map((event) => event as double);. Use: StreamBuilder(stream: sensorStream, builder: ...). Android: EventChannel(messenger, 'com.app/sensor').setStreamHandler(object : EventChannel.StreamHandler { override fun onListen(args: Any?, sink: EventChannel.EventSink) { sensorManager.registerListener(object : SensorEventListener { override fun onSensorChanged(event: SensorEvent) { sink.success(event.values[0]) } }, sensor, NORMAL) } override fun onCancel(args: Any?) { sensorManager.unregisterListener(listener) } })."
+  },
+  {
+    "instruction": "What is the purpose of the @override annotation in Dart?",
+    "input": "",
+    "output": "The @override annotation indicates that a method intentionally overrides a superclass method or interface member. While optional, it serves as documentation and helps the analyzer detect errors — if the annotated method does not actually override anything, the analyzer produces a warning. It is a best practice to always use @override."
+  },
+  {
+    "instruction": "What is the Drawer's endDrawer property?",
+    "input": "",
+    "output": "Scaffold supports two drawers: drawer (slides from the left/start) and endDrawer (slides from the right/end). Both work identically but appear from opposite sides. The endDrawer is opened via Scaffold.of(context).openEndDrawer() or by swiping from the right edge. It is commonly used for filters, settings, or secondary navigation."
+  },
+  {
+    "instruction": "How do you implement background fetch in Flutter?",
+    "input": "",
+    "output": "Background fetch uses background_fetch or workmanager packages. workmanager: Workmanager().registerOneOffTask('task1', 'simpleTask') or registerPeriodicTask for recurring. Define callbackDispatcher as top-level function. On iOS, register BGTaskScheduler capabilities. On Android, uses WorkManager API. Constraints: requiresNetworkConnectivity, requiresCharging. Background execution is limited by OS energy management."
+  },
+  {
+    "instruction": "What is the TweenAnimationBuilder widget in Flutter?",
+    "input": "",
+    "output": "TweenAnimationBuilder is an implicit animation widget that animates between any two values using a Tween. Unlike AnimatedContainer which only handles specific properties, TweenAnimationBuilder works with any Tween type. It takes a tween, duration, builder, and optional onEnd callback. It handles creating and managing the AnimationController internally."
+  },
+  {
+    "instruction": "How do you implement app versioning and updates in Flutter?",
+    "input": "",
+    "output": "App version comes from pubspec.yaml version field (e.g., 1.2.3+4). Access at runtime with package_info_plus: PackageInfo.fromPlatform(). Force update checks: compare installed version with server's minimum version. Show update dialog if outdated. Use in_app_update (Android) for seamless updates. Use upgrader package for cross-platform update prompts with store links."
+  },
+  {
+    "instruction": "How do you implement text overflow handling in Flutter?",
+    "input": "",
+    "output": "Text overflow is handled with the overflow property: TextOverflow.ellipsis (shows ...), clip (clips text), fade (fades out), visible (overflows visibly). Combine with maxLines to limit lines: Text('Long text', maxLines: 2, overflow: TextOverflow.ellipsis). For dynamic text sizing, use FittedBox or auto_size_text package which adjusts font size to fit available space."
+  },
+  {
+    "instruction": "What are Dart generics?",
+    "input": "",
+    "output": "Generics allow writing type-safe, reusable code in Dart. They let you parameterize classes, functions, and interfaces with type arguments. For example, List<String> ensures a list only contains strings. Generics reduce code duplication while maintaining type safety, and Dart supports generic classes, methods, and type constraints using the extends keyword."
+  },
+  {
+    "instruction": "How do you implement a collapsible/expandable section in Flutter?",
+    "input": "",
+    "output": "AnimatedContainer: AnimatedContainer(duration: Duration(ms: 300), height: _expanded ? 200 : 0, child: SingleChildScrollView(child: content));. AnimatedCrossFade: AnimatedCrossFade(firstChild: SizedBox.shrink(), secondChild: ExpandedContent(), crossFadeState: _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst, duration: Duration(ms: 300));. Or use ExpansionTile, ExpansionPanelList. Custom: use SizeTransition with AnimationController for precise control."
+  },
+  {
+    "instruction": "What is the purpose of the debugPrint function in Flutter?",
+    "input": "",
+    "output": "debugPrint is a throttled version of print() that prevents log output from being dropped when multiple lines are printed rapidly. The standard print() can lose output when the system logger buffer fills up, but debugPrint rate-limits output to prevent this. It is recommended over print() for debug logging in Flutter apps. It is stripped from release builds."
+  },
+  {
+    "instruction": "What is the precacheImage function in Flutter?",
+    "input": "",
+    "output": "precacheImage() pre-loads an image into the image cache before it is needed by an Image widget. This prevents visible loading delays when the widget first builds. It returns a Future that completes when the image is cached. It is typically called in initState() or didChangeDependencies() with the BuildContext: precacheImage(AssetImage('bg.png'), context)."
+  },
+  {
+    "instruction": "How do you handle RTL (right-to-left) layouts in Flutter?",
+    "input": "",
+    "output": "Flutter handles RTL automatically when locale is set to RTL language (Arabic, Hebrew). Force direction: Directionality(textDirection: TextDirection.rtl, child: MyWidget()). Use Directionality.of(context) to check. EdgeInsetsDirectional instead of EdgeInsets: EdgeInsetsDirectional.only(start: 16). AlignmentDirectional.centerStart instead of Alignment.centerLeft. Row automatically reverses children in RTL. Use TextDirection-aware properties: startMargin, endMargin. Test with: MaterialApp(locale: Locale('ar'))."
+  },
+  {
+    "instruction": "What is the AutomaticKeepAliveClientMixin in Flutter?",
+    "input": "",
+    "output": "AutomaticKeepAliveClientMixin is a State mixin that prevents a widget from being disposed when it scrolls out of a lazy list (like ListView.builder or PageView). By overriding wantKeepAlive to return true and calling super.build(context), the widget's state is preserved even when off-screen. It is useful for preserving scroll position or form state in tab views."
+  },
+  {
+    "instruction": "How do you implement gradient buttons in Flutter?",
+    "input": "",
+    "output": "Gradient buttons wrap a button with a DecoratedBox or Container with gradient decoration: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [color1, color2])), child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent), ...)). Or use Ink widget with Ink(decoration: gradient, child: InkWell)."
+  },
+  {
+    "instruction": "What is the showModalBottomSheet function in Flutter?",
+    "input": "",
+    "output": "showModalBottomSheet displays a modal bottom sheet that slides up from the bottom of the screen and dims the background. It returns a Future that resolves when dismissed. Key parameters: builder (content), isScrollControlled (full height), enableDrag, backgroundColor, shape, and showDragHandle. The sheet is dismissed by tapping the barrier, swiping down, or calling Navigator.pop."
+  },
+  {
+    "instruction": "What is the InteractiveViewer widget in Flutter?",
+    "input": "",
+    "output": "InteractiveViewer enables pan and zoom gestures on its child widget. It supports pinch-to-zoom, drag-to-pan, and optional boundary constraints. Properties include minScale, maxScale, boundaryMargin, and panEnabled. It is commonly used for zoomable images, maps, diagrams, and large content. The transformationController provides programmatic control over the transformation."
+  },
+  {
+    "instruction": "How do you handle back button press in Flutter?",
+    "input": "",
+    "output": "Handle back button with PopScope (Flutter 3.12+): PopScope(canPop: false, onPopInvokedWithResult: (didPop, result) { if (!didPop) showExitDialog(context); }, child: scaffold). This replaces the deprecated WillPopScope. For custom back behavior in navigation, use Navigator.maybePop() which respects route predicates. On Android, the system back gesture triggers pop."
+  },
+  {
+    "instruction": "How do you implement Firebase Cloud Storage in Flutter?",
+    "input": "",
+    "output": "Firebase Cloud Storage uses the firebase_storage package. Upload files with: ref.putFile(file) or ref.putData(bytes) with optional SettableMetadata. Track progress with uploadTask.snapshotEvents stream. Get download URL with ref.getDownloadURL(). List files with ref.listAll(). Delete with ref.delete(). Set security rules for authentication-based access control."
+  },
+  {
+    "instruction": "What is the flutter_bloc vs BLoC pattern difference?",
+    "input": "",
+    "output": "BLoC pattern is an architectural pattern using Streams for state management — events in, states out. flutter_bloc is a library implementing this pattern with Bloc/Cubit classes, BlocProvider for DI, BlocBuilder for UI rebuilds, BlocListener for side effects, and BlocConsumer for both. flutter_bloc adds convenience over raw StreamController-based BLoC implementation."
+  },
+  {
+    "instruction": "What is the focus system in Flutter?",
+    "input": "",
+    "output": "Flutter's focus system manages which widget receives keyboard events. FocusNode represents a focusable widget, FocusScope groups focus nodes, and FocusScopeNode manages focus within a scope. Focus widget wraps focusable children. FocusManager controls the global focus state. The system supports traversal, automatic focus, and skip-focus for accessibility navigation."
+  },
+  {
+    "instruction": "What is the bang operator (!) in Dart?",
+    "input": "",
+    "output": "The bang operator (!) in Dart asserts that a nullable value is not null. For example, String? name = getName(); print(name!.length) tells the compiler that name is guaranteed to be non-null. If the value is actually null at runtime, it throws a TypeError. Use it sparingly and only when you are certain the value is non-null."
+  },
+  {
+    "instruction": "How do you implement a popup menu in Flutter?",
+    "input": "",
+    "output": "PopupMenuButton<String>(onSelected: (value) { print(value); }, itemBuilder: (context) => [PopupMenuItem(value: 'edit', child: ListTile(leading: Icon(Icons.edit), title: Text('Edit'))), PopupMenuItem(value: 'delete', child: ListTile(leading: Icon(Icons.delete), title: Text('Delete')))]);. Customize: icon, offset, shape, color, elevation. For contextual menus on long press, use showMenu(context: context, position: RelativeRect.fromLTRB(...), items: [...])."
+  },
+  {
+    "instruction": "What is the Scaffold widget?",
+    "input": "",
+    "output": "Scaffold provides the basic Material Design visual structure. It contains appBar (top bar), body (main content), floatingActionButton, drawer (side menu), bottomNavigationBar, and bottomSheet. It handles the layout of these components automatically. Most screens use Scaffold as their root layout widget."
+  },
+  {
+    "instruction": "What is the ThemeData class in Flutter?",
+    "input": "",
+    "output": "ThemeData defines the visual properties for a Material Design theme in Flutter. It specifies colors, typography, shape themes, and component-level styles that are consistently applied throughout the app. It is set via the theme property of MaterialApp and accessed by descendant widgets using Theme.of(context)."
+  },
+  {
+    "instruction": "How do you implement aspect-ratio-aware image loading?",
+    "input": "",
+    "output": "Loading images with correct aspect ratio: Image.network(url, loadingBuilder: (context, child, progress) { if (progress == null) return child; return Center(child: CircularProgressIndicator(value: progress.expectedTotalBytes != null ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes! : null)); }, errorBuilder: (context, error, stackTrace) => Icon(Icons.error));. Use FadeInImage for smooth placeholder transition: FadeInImage.assetNetwork(placeholder: 'assets/placeholder.png', image: url, fit: BoxFit.cover)."
+  },
+  {
+    "instruction": "What is ChangeNotifier in Flutter?",
+    "input": "",
+    "output": "ChangeNotifier is a class that implements the Listenable interface and notifies listeners when data changes via notifyListeners(). It is commonly used as a base class for view models or state objects in the Provider pattern. When notifyListeners() is called, all widgets watching the ChangeNotifier are rebuilt to reflect the new state."
+  },
+  {
+    "instruction": "What is the Selector widget pattern?",
+    "input": "",
+    "output": "While not a built-in Flutter widget, Selector is a widget from the Provider package that rebuilds only when a selected value from the provided object changes. Unlike Consumer which rebuilds on any change, Selector extracts a specific value and only triggers rebuilds when that value differs. This optimizes performance in complex UIs."
+  },
+  {
+    "instruction": "How does GetX handle state management in Flutter?",
+    "input": "",
+    "output": "GetX provides reactive state management with .obs extension and Obx widget. Variables are made observable: var count = 0.obs. Obx(() => Text('$count')) auto-rebuilds on changes. GetX also offers GetBuilder for non-reactive rebuilds, GetxController for business logic, dependency injection via Get.put/Get.lazyPut, route management via Get.to/Get.off, and snackbar/dialog utilities."
+  },
+  {
+    "instruction": "How do you implement code generation with Freezed for data classes?",
+    "input": "",
+    "output": "@freezed class User with _$User { const factory User({required String name, required int age, @Default('') String email, List<String>? tags}) = _User; factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json); }. Features: immutable, copyWith: user.copyWith(name: 'Jane'). Pattern matching with union types: @freezed class Result<T> with _$Result<T> { const factory Result.success(T data) = Success; const factory Result.error(String msg) = Error; }. result.when(success: (data) => show(data), error: (msg) => showError(msg)). Run: dart run build_runner build. Generates ==, hashCode, toString, copyWith, fromJson/toJson."
+  },
+  {
+    "instruction": "How do you use Dart FFI to call C libraries?",
+    "input": "",
+    "output": "Dart FFI (Foreign Function Interface) calls native C functions. 1) Load library: final lib = DynamicLibrary.open('libmath.so');. 2) Define types: typedef AddFunc = Int32 Function(Int32, Int32); typedef AddDart = int Function(int, int);. 3) Lookup: final add = lib.lookupFunction<AddFunc, AddDart>('add');. 4) Call: int result = add(3, 4);. Structs: final class Point extends Struct { @Int32() external int x; @Int32() external int y; }. Allocate memory: final pointer = calloc<Point>(); pointer.ref.x = 10; calloc.free(pointer);. Use ffigen to auto-generate bindings from C headers."
+  },
+  {
+    "instruction": "How do you implement reactive form validation with streams?",
+    "input": "",
+    "output": "Stream-based form validation: class LoginBloc { final _email = BehaviorSubject<String>(); final _password = BehaviorSubject<String>(); Stream<String> get email => _email.stream.transform(StreamTransformer.fromHandlers(handleData: (value, sink) { if (value.contains('@')) sink.add(value); else sink.addError('Invalid email'); })); Stream<bool> get isValid => Rx.combineLatest2(email, password, (e, p) => true); Function(String) get changeEmail => _email.sink.add; void dispose() { _email.close(); _password.close(); } }. UI: StreamBuilder<String>(stream: bloc.email, builder: (ctx, snap) => TextField(errorText: snap.error?.toString()))."
+  },
+  {
+    "instruction": "How do you implement animated bottom navigation in Flutter?",
+    "input": "",
+    "output": "Custom animated nav: BottomNavigationBar with custom selected/unselected styling. Or build custom: Container(child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: items.map((item) => GestureDetector(onTap: () => setState(() => _selected = item.index), child: AnimatedContainer(duration: Duration(ms: 200), padding: EdgeInsets.symmetric(h: 16, v: 8), decoration: BoxDecoration(color: _selected == item.index ? Colors.blue.withOpacity(0.1) : Colors.transparent, borderRadius: BorderRadius.circular(20)), child: Row(children: [Icon(item.icon, color: _selected == item.index ? Colors.blue : Colors.grey), if (_selected == item.index) Text(item.label)]))))));."
+  },
+  {
+    "instruction": "How does Flutter's widget reconciliation algorithm work?",
+    "input": "",
+    "output": "Flutter's reconciliation (diffing) algorithm compares old and new widget trees element-by-element. It uses widget runtimeType and key to match elements. If type matches, the element is updated (updateChild). If type differs, the old element is deactivated and a new one is inflated. Keys force identity-based matching within lists. The algorithm is O(n) for lists with keys, handling reorders, insertions, and deletions efficiently. Without keys, it uses positional matching which can cause incorrect state preservation."
+  },
+  {
+    "instruction": "What are the main advantages of using Flutter for app development?",
+    "input": "",
+    "output": "Flutter offers several advantages: a single codebase for multiple platforms (iOS, Android, web, desktop), hot reload for fast development cycles, a rich set of customizable widgets, excellent performance due to direct compilation to native code, and a strong community with extensive package support through pub.dev."
+  },
+  {
+    "instruction": "How do you implement custom semantics for accessibility in Flutter?",
+    "input": "",
+    "output": "Custom semantics use Semantics widget: Semantics(label: 'Play button', hint: 'Double tap to play video', value: '0:30', onTap: play, child: customWidget). For complex widgets, use MergeSemantics, ExcludeSemantics, BlockSemantics to control the semantics tree. Custom render objects override describeSemanticsConfiguration. Test with SemanticsHandle in widget tests. Validate with Accessibility Inspector (iOS) and TalkBack (Android). Follow WCAG guidelines."
+  },
+  {
+    "instruction": "How do you implement compile-time safety for routes in Flutter?",
+    "input": "",
+    "output": "Compile-time route safety prevents navigation errors. Use code-generated routes with auto_route (annotated page classes → typed route classes), or go_router_builder for GoRouter type-safe routes. Define routes as classes with typed parameters: context.pushRoute(UserRoute(id: 42)). The compiler catches missing parameters and type mismatches at build time instead of runtime crashes."
+  }
+]
