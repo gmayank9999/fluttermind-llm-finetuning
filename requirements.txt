@@ -1,0 +1,17 @@
+# Core ML & Training
+transformers==4.40.0
+datasets==2.19.0
+peft==0.10.0
+accelerate==0.29.0
+bitsandbytes==0.43.0
+trl==0.8.1
+torch==2.2.0
+
+# Evaluation
+scikit-learn==1.4.0
+rouge-score==0.1.2
+nltk==3.8.1
+
+# Dataset Processing
+fuzzywuzzy==0.18.0
+python-Levenshtein==0.25.0
