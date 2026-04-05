@@ -187,6 +187,7 @@ def train(model, tokenizer, train_dataset, val_dataset, output_dir, config):
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         args=training_args,
+        dataset_text_field="text",
         max_seq_length=MAX_SEQ_LENGTH,
     )
 
