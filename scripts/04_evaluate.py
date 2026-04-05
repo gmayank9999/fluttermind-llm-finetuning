@@ -81,8 +81,27 @@ def compute_bleu(reference, hypothesis):
     smoothing = SmoothingFunction().method1
     try:
         return sentence_bleu([ref_tokens], hyp_tokens, smoothing_function=smoothing)
-    except (ValueError, ZeroDivisionError):
-        return 0.0
+    except (ValueError, ZeroDivisionError, TypeError):
+        # TypeError: Python 3.12 removed Fraction._normalize, fallback to manual BLEU
+        try:
+            from collections import Counter
+            import math
+            # Simple 4-gram BLEU with add-1 smoothing
+            def _ngrams(tokens, n):
+                return [tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1)]
+            weights = [0.25, 0.25, 0.25, 0.25]
+            log_bleu = 0.0
+            for n in range(1, 5):
+                ref_ng = Counter(_ngrams(ref_tokens, n))
+                hyp_ng = Counter(_ngrams(hyp_tokens, n))
+                clipped = sum(min(hyp_ng[ng], ref_ng[ng]) for ng in hyp_ng)
+                total = max(len(hyp_tokens) - n + 1, 1)
+                precision = (clipped + 1) / (total + 1)  # add-1 smoothing
+                log_bleu += weights[n-1] * math.log(precision)
+            bp = min(1.0, math.exp(1 - len(ref_tokens) / max(len(hyp_tokens), 1)))
+            return bp * math.exp(log_bleu)
+        except Exception:
+            return 0.0
 
 
 def compute_rouge(reference, hypothesis):
