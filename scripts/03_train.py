@@ -172,7 +172,7 @@ def train(model, tokenizer, train_dataset, val_dataset, output_dir, config):
         logging_steps=config["logging_steps"],
         logging_dir=os.path.join(output_dir, "..", "logs"),
         save_strategy="epoch",
-        eval_strategy="epoch",
+        evaluation_strategy="epoch",
         fp16=config["fp16"],
         report_to="none",  # Disable wandb/mlflow; use "tensorboard" if desired
         optim="paged_adamw_32bit",
